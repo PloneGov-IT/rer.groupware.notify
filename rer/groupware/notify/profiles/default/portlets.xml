@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<portlets
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="rer.groupware.notify">
+ 
+ <!-- Portlet type registrations -->
+ <portlet
+   addview="rer.groupware.notify.portletGroupsNotification"
+   title="Groupware notification portlet"
+   description="Portlet for configure groupware notifications in the site"
+   i18n:attributes="title; description"
+   />
+
+</portlets>

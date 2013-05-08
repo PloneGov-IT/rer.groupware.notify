@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="rer.groupware.notify">
+
+    <include package="plone.app.portlets" />
+
+	<plone:portlet
+         name="rer.groupware.notify.portletGroupsNotification"
+         interface=".groups_notification_portlet.IGroupsNotificationPortlet"
+         assignment=".groups_notification_portlet.Assignment"
+         view_permission="zope2.View"
+         renderer=".groups_notification_portlet.Renderer"
+         addview=".groups_notification_portlet.AddForm"
+         />
+		 
+</configure>
