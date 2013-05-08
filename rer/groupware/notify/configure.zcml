@@ -6,7 +6,17 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  <include package="rer.groupware.room" />
   <include package=".portlets" />
+
+  <subscriber for="rer.groupware.room.interfaces.group_room.IGroupRoom
+                   rer.groupware.room.events.room_events.IRoomCreateGroupsEvent"
+              handler = ".events.CreateNotificationGroupsEvent"
+       />
+  <subscriber for="rer.groupware.room.interfaces.group_room.IGroupRoom
+                   rer.groupware.room.events.room_events.IRoomCreateRulesEvent"
+              handler = ".events.CreateNotificationRulesEvent"
+       />
 
   <genericsetup:registerProfile
       name="default"

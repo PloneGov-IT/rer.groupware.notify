@@ -12,6 +12,7 @@ setup(name='rer.groupware.notify',
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 4.2",
         "Programming Language :: Python",
         ],
       keywords='plone plonegov groupware rer notification rule mail',
@@ -25,11 +26,9 @@ setup(name='rer.groupware.notify',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'rer.groupware.room',
       ],
       entry_points="""
-      # -*- Entry points: -*-
-
       [z3c.autoinclude.plugin]
       target = plone
       """,
