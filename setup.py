@@ -27,6 +27,7 @@ setup(name='rer.groupware.notify',
       install_requires=[
           'setuptools',
           'rer.groupware.room',
+          'Products.SimpleGroupsManagement',
       ],
       entry_points="""
       [z3c.autoinclude.plugin]
