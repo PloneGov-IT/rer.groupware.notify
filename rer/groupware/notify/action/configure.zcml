@@ -1,0 +1,40 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:plone="http://namespaces.plone.org/plone"
+  xmlns:five="http://namespaces.zope.org/five"
+  i18n_domain="rer.groupware.notify">
+
+  <include package="plone.contentrules" />
+  <include package="plone.contentrules" file="meta.zcml" />
+
+  <!-- Email action definition -->
+  <adapter factory=".mail.MailActionExecutor" />
+
+  <browser:page
+    for="plone.app.contentrules.browser.interfaces.IRuleActionAdding"
+    name="plone.actions.GroupwareMail"
+    class=".mail.MailForGroupwareNotificationAddForm"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    for=".mail.IMailForGroupwareNotificationAction"
+    name="edit"
+    class=".mail.MailForGroupwareNotificationEditForm"
+    permission="cmf.ManagePortal"
+    />
+
+  <plone:ruleAction
+    name="plone.actions.GroupwareMail"
+    title="Groupware notification rule"
+    description="Send an email to all member of a Groupware notification group"
+    for="*"
+    event="zope.component.interfaces.IObjectEvent"
+    addview="plone.actions.GroupwareMail"
+    editview="edit"
+    schema=".mail.IMailForGroupwareNotificationAction"
+    factory=".mail.MailForGroupwareNotificationAction"
+    />
+
+</configure>
