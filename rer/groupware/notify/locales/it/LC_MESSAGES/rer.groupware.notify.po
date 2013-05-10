@@ -98,17 +98,17 @@ msgstr ""
 #. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when new contents are added"
 #: ../events.py:99
 msgid "notify_description_created"
-msgstr "Tutti gli utenti dentro al gruppo di notifica dell'area ${area_title} all'interno della stanza ${room_title} saranno notificati via mail quanto un nuovo contenuto viene aggiunto"
+msgstr "Tutti gli utenti dentro al gruppo di notifica dell'area ${area_title} all'interno della stanza ${room_title} saranno notificati via mail quando un nuovo contenuto viene aggiunto"
 
 #. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when contents are deleted"
 #: ../events.py:143
 msgid "notify_description_deleted"
-msgstr "Tutti gli utenti dentro al gruppo di notifica dell'area ${area_title} all'interno della stanza ${room_title} saranno notificati via mail quanto un contenuto viene cancellato"
+msgstr "Tutti gli utenti dentro al gruppo di notifica dell'area ${area_title} all'interno della stanza ${room_title} saranno notificati via mail quando un contenuto viene cancellato"
 
 #. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when contents are modified"
 #: ../events.py:122
 msgid "notify_description_modified"
-msgstr "Tutti gli utenti dentro al gruppo di notifica dell'area ${area_title} all'interno della stanza ${room_title} saranno notificati via mail quanto i contenuti vengono modificati"
+msgstr "Tutti gli utenti dentro al gruppo di notifica dell'area ${area_title} all'interno della stanza ${room_title} saranno notificati via mail quando i contenuti vengono modificati"
 
 #. Default: "The document \"${title}\" has been created.\nYou can click on the following link to see it:\n${url}"
 #: ../events.py:90
