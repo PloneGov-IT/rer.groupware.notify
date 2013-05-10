@@ -160,18 +160,19 @@ class CreateNotificationRulesEvent:
         #add the rule to rule's storage
         storage = getUtility(IRuleStorage)
         chooser = INameChooser(storage)
-        storage[rule_id] = rule
-        #set the action and add it to the rule
-        action = MailForGroupwareNotificationAction()
-        
-        action.sender = None
-        action.subject=subject
-        action.message=message
-        rule.actions.append(action)
-        #assignment
-        rule_id=rule.id.replace('++rule++','')
-        assignable = IRuleAssignmentManager(area.getObject())
-        assignable[rule_id] = RuleAssignment(rule_id)
-        assignable[rule_id].bubbles=True
-        get_assignments(storage[rule_id]).insert(area.getPath())
-        logger.info('Created rule %s, enabled on %s' % (rule_id, area.Title))
+        if rule_id not in storage.keys():
+            storage[rule_id] = rule
+            #set the action and add it to the rule
+            action = MailForGroupwareNotificationAction()
+            
+            action.sender = None
+            action.subject=subject
+            action.message=message
+            rule.actions.append(action)
+            #assignment
+            rule_id=rule.id.replace('++rule++','')
+            assignable = IRuleAssignmentManager(area.getObject())
+            assignable[rule_id] = RuleAssignment(rule_id)
+            assignable[rule_id].bubbles=True
+            get_assignments(storage[rule_id]).insert(area.getPath())
+            logger.info('Created rule %s, enabled on %s' % (rule_id, area.Title))

@@ -9,6 +9,9 @@ from plone.memoize.instance import memoize
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
 
+from rer.groupware.notify import messageFactory as _
+from rer.groupware.room.interfaces import IRoomArea
+
 class IGroupsNotificationPortlet(IPortletDataProvider):
     """
     Portlet per eseguire iscruzioni alle notifiche
@@ -25,10 +28,7 @@ class Assignment(base.Assignment):
 
     @property
     def title(self):
-        """
-        Il titolo nel menu delle portlet
-        """
-        return "Group Notification Portlet" 
+        return _("Groupware Notifications") 
 
 
 class Renderer(base.Renderer):
@@ -40,54 +40,61 @@ class Renderer(base.Renderer):
         self.__parent__ = view
         self.manager = manager
         self.data = data
-        self.pg=getToolByName(self.context, 'portal_groups')
-        self.pm=getToolByName(self.context,'portal_membership')
-        if request.form.has_key('group_to_add') and request.form.get('room_id'):
-            self.addUserToGroup(request.form.get('group_to_add'), request.form.get('room_id'))
+        
+        self.room_title = ''
+        self.room_id = ''
             
     render = ViewPageTemplateFile('groups_notification_portlet.pt')
     
     @property
     def available(self):
-        pm=getToolByName(self.context,'portal_membership')
+        pm = getToolByName(self.context,'portal_membership')
         if pm.isAnonymousUser():
             return False
-        if not self.listUserGroups():
+        if not self.listNotificationGroups():
             return False
         return True
 
+    @property
     @memoize
-    def listUserGroups(self):
-        room=None
+    def member(self):
+        portal_membership = getToolByName(self.context, 'portal_membership')
+        return portal_membership.getAuthenticatedMember()
+
+    def listNotificationGroups(self):
+        room = None
         for parent in self.context.aq_inner.aq_chain:
             if getattr(parent,'portal_type','') == 'GroupRoom':
-                room=parent
+                room = parent
         if not room:
-            #i'm not in a room or subtree and the portlet will not be visible
-            return {}
-        room_id = room.getId()
-        user=self.pm.getAuthenticatedMember()
-        user_groups=user.getGroups()
-        if not user_groups:
-            return {}
-        room_groups=[x for x in user_groups if x.startswith(room_id)]
-        if not room_groups:
-            return {}
-        return {'title':room.Title(),
-                'room_id':room_id,
-                'notification_docs':'%s.notifyDocs'%room_id in user_groups,
-                'notification_news_events':'%s.notifyNewsEvents' % room_id in user_groups}
-    
-    def addUserToGroup(self,group_id,room_id):
-        group=self.pg.getGroupById('%s.%s' %(room_id,group_id))
-        group_members=group.getMemberIds()
-        userid=self.pm.getAuthenticatedMember().id
-        if userid not in group_members:
-            self.pg.addPrincipalToGroup(userid,'%s.%s' %(room_id,group_id))
-        else:
-            self.pg.removePrincipalFromGroup(userid,'%s.%s' %(room_id,group_id))
-        return self.request.RESPONSE.redirect(self.context.absolute_url())
+            # I'm not in a room or subtree and the portlet will not be visible
+            return []
+        self.room_title = room.Title()
+        self.room_id = room.getId()
         
+        # now I need all area inside
+        catalog = getToolByName(self.context, 'portal_catalog')
+        areas = catalog(object_provides=IRoomArea.__identifier__,
+                        path={'query': '/'.join(room.getPhysicalPath()), 'depth': 1},
+                        sort_on='getObjPositionInParent')
+        room_areas = []
+        acl_users = getToolByName(self.context, 'acl_users')
+        notify_groups = [g for g in acl_users.getGroups() \
+                    if g.getId().startswith("%s." % self.room_id) and g.getId().endswith(".notify")]
+        for area in areas:
+            area_data = {}
+            area_data['id'] = area.getId
+            area_data['title'] = area.Title
+            area_data['groups'] = [{'id': g.getId(),
+                                    'title': g.getProperty('title')} for g in notify_groups \
+                        if g.getId().startswith("%s.%s." % (self.room_id, area.getId))]
+            room_areas.append(area_data)
+        return room_areas
+    
+    def inNotificationGroup(self, group):
+        return group.get('id') in self.member.getGroups()
+
+
         
 class AddForm(base.NullAddForm):
 

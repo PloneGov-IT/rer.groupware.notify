@@ -11,6 +11,7 @@
   <include package="rer.groupware.room" />
   <include package=".portlets" />
   <include package=".action" />
+  <include package=".browser" />
 
   <subscriber for="rer.groupware.room.interfaces.group_room.IGroupRoom
                    rer.groupware.room.events.room_events.IRoomCreateGroupsEvent"

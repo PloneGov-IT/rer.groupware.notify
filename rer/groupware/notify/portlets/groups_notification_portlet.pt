@@ -1,69 +1,51 @@
-<dl class="portlet portletProjects"
+<dl class="portlet portletGroupwareNotification"
     i18n:domain="rer.groupware.notify">
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
-		<span i18n:translate="portlet_room_title">
-			Notification management
-		</span>
+        <span i18n:translate="portlet_room_title">
+            <span class="roomName" i18n:name="room_name" tal:content="view/room_title" /> notifications
+        </span>
         <span class="portletTopRight"></span>
     </dt>
     
     <dd class="portletItem">
-    	<tal:groups define="group view/listUserGroups">
-			<div tal:condition="group">
-				<dl class="groupNotificationList">
-					<dt tal:content="group/title">
-					</dt>
-					<dd>
-						<a href=""
-						   alt="enable documents notify"
-						   title="enable documents notify"
-						   i18n:attributes="alt; title"
-						   tal:attributes="href string:${here/absolute_url}?group_to_add=notifyDocs&room_id=${group/room_id}">
-							<img tal:condition="python:group.get('notification_docs')"
-								 tal:attributes="src string:${here/portal_url}/++resource++rer.groupware.room.images/group_true.png"
-								 role="checkbox"
-								 alt="enable documents notify"
-								 aria-checked="true"
-								 i18n:attributes="alt" />
-							<img tal:condition="python:not group.get('notification_docs')"
-								 tal:attributes="src string:${here/portal_url}/++resource++rer.groupware.room.images/group_false.png"
-								 alt="enable documents notify"
-								 role="checkbox"
+        <div tal:define="groups view/listNotificationGroups">
+            <dl class="groupNotificationList">
+                <tal:areas repeat="area groups">
+                    <dd tal:repeat="group area/groups">
+                        <a href=""
+                           title="Enable documents notify"
+                           tal:condition="python:not view.inNotificationGroup(group)"
+                           i18n:attributes="title"
+                           tal:attributes="href string:${here/absolute_url}/@@notification-subscription?room_id=${view/room_id}&area_id=${area/id}">
+                            <img tal:attributes="src string:${here/portal_url}/++resource++rer.groupware.room.images/group_false.png"
+                                 alt="Enable documents notify"
+                                 role="checkbox"
                                  aria-checked="false"
-								 i18n:attributes="alt" />
-							<span i18n:translate="portlet_room_label_docs">Documents</span>
-						</a>
-					</dd>
-					<dd>
-						<a href=""
-						   alt="enable news and events notify"
-                           title="enable news and events notify"
-                           i18n:attributes="alt; title"
-						   tal:attributes="href string:${here/absolute_url}?group_to_add=notifyNewsEvents&room_id=${group/room_id}">
-							<img tal:condition="python:group.get('notification_news_events')"
-								 tal:attributes="src string:${here/portal_url}/++resource++rer.groupware.room.images/group_true.png"
-								 alt="enable news and events notify"
-								 role="checkbox"
+                                 i18n:attributes="alt" />
+                            <span tal:replace="area/title" />
+                        </a>
+                        <a href=""
+                           title="Disable documents notify"
+                           tal:condition="python:view.inNotificationGroup(group)"
+                           i18n:attributes="title"
+                           tal:attributes="href string:${here/absolute_url}/@@notification-subscription?room_id=${view/room_id}&area_id=${area/id}">
+                            <img tal:attributes="src string:${here/portal_url}/++resource++rer.groupware.room.images/group_true.png"
+                                 role="checkbox"
+                                 alt="Disable documents notify"
                                  aria-checked="true"
-                                 i18n:attributes="alt"  />
-							<img tal:condition="python:not group.get('notification_news_events')"
-								 tal:attributes="src string:${here/portal_url}/++resource++rer.groupware.room.images/group_false.png"
-								 alt="enable news and events notify"
-								 role="checkbox"
-                                 aria-checked="false"
-                                 i18n:attributes="alt"  />
-							<span i18n:translate="portlet_room_label_news_events">News and events</span>
-						</a>
-					</dd>
-				</dl>
-			</div>
-		</tal:groups>
+                                 i18n:attributes="alt" />
+                            <span tal:replace="area/title" />
+                        </a>
+                    </dd>
+                </tal:areas>
+            </dl>
+        </div>
     </dd>
     <dd class="portletFooter">
         <span class="portletBottomLeft"></span>
         <span class="portletBottomRight"></span>
     </dd>
-	
+    
 </dl>

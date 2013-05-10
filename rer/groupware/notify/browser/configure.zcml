@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="rer.groupware.notify">
+
+  <include package="plone.app.contentmenu" />
+ 
+  <browser:page
+        name="notification-subscription"
+        for="*"
+        class=".view.NotificationSubscriptionView"
+        permission="zope.Public"
+        />
+
+</configure>
