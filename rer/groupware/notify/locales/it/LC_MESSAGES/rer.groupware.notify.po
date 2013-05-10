@@ -159,7 +159,7 @@ msgstr "[${room_title}] notifica per documenti cancellati nell'area ${area_title
 #. Default: "[${room_title}] notify for document edited inside ${area_title}"
 #: ../events.py:118
 msgid "notify_title_modified"
-msgstr "[${room_title}] notifica per documenti modificatinell'area ${area_title}"
+msgstr "[${room_title}] notifica per documenti modificati nell'area ${area_title}"
 
 #. Default: "${room_name} notifications"
 #: ../portlets/groups_notification_portlet.pt:7

@@ -12,4 +12,12 @@
         permission="zope.Public"
         />
 
+    <browser:page
+        name="groupware-notify-settings"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".controlpanel.GroupwareNotifySettingsControlPanel"
+        permission="rer.groupware.notify.ManageSettings"
+        layer="..interfaces.IGroupwareNotifyLayer"
+        />
+
 </configure>

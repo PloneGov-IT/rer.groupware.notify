@@ -35,7 +35,7 @@ class NotificationSubscriptionView(BrowserView):
         """If the user is not a poweruser, we need to check if he can really subscribe to the notification group.
         i.e: is part of the room?
         """
-        if member.has_permission(permissions.ManagePortal, self.context):
+        if member.has_permission('rer.groupware.notify: Manage notification settings', self.context):
             return True
         if '%s.members' % room_id in member.getGroups():
             return True

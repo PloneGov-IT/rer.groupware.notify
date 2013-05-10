@@ -2,7 +2,9 @@
 
 from zope.i18n import translate
 
-from zope.component import getUtility
+from zope.component import getUtility, queryUtility
+from zope.schema.interfaces import IVocabularyFactory
+
 from zope.app.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent
 from zope.app.container.interfaces import INameChooser
 
@@ -13,12 +15,15 @@ from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from plone.contentrules.engine.assignments import RuleAssignment
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.interfaces import IRuleStorage
+from plone.app.contentrules.conditions.portaltype import PortalTypeCondition
 from plone.app.contentrules.rule import Rule, get_assignments
+from plone.registry.interfaces import IRegistry
 
 from rer.groupware.room.interfaces import IRoomArea
+
 from rer.groupware.notify import logger
 from rer.groupware.notify import messageFactory as _
-
+from rer.groupware.notify.interfaces import IGroupwareNotifySettings
 from rer.groupware.notify.action.mail import MailForGroupwareNotificationAction
 
 
@@ -169,6 +174,19 @@ class CreateNotificationRulesEvent:
             action.subject=subject
             action.message=message
             rule.actions.append(action)
+            
+            #set the condition and add it to the rule
+            registry = queryUtility(IRegistry)
+            settings = registry.forInterface(IGroupwareNotifySettings, check=False)
+            if settings:
+                factory = getUtility(IVocabularyFactory, 'plone.app.vocabularies.ReallyUserFriendlyTypes')
+                vocabulary = factory(context)
+                all_types = [t.value for t in vocabulary._terms]
+                types_list =  set(all_types).difference(settings.black_list)
+                condition=PortalTypeCondition()
+                condition.check_types=tuple(types_list)
+                rule.conditions.append(condition)  
+            
             #assignment
             rule_id=rule.id.replace('++rule++','')
             assignable = IRuleAssignmentManager(area.getObject())

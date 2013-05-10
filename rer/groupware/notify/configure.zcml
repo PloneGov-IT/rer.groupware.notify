@@ -8,6 +8,11 @@
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales" />
 
+  <permission
+        id="rer.groupware.notify.ManageSettings"
+        title="rer.groupware.notify: Manage notification settings"
+        />
+
   <include package="rer.groupware.room" />
   <include package=".portlets" />
   <include package=".action" />
