@@ -105,8 +105,9 @@ class MailActionExecutor(object):
             # no source provided, looking for the site wide "from" email address
             from_address = portal.getProperty('email_from_address')
             if not from_address:
-                raise ValueError, ('You must provide a source address for this '
-                                   'action or enter an email in the portal properties')
+                logger.error('You must provide a source address for this '
+                             'action or enter an email in the portal properties')
+                return False
             from_name = portal.getProperty('email_from_name')
             source = "%s <%s>" % (from_name, from_address)
 
@@ -174,7 +175,8 @@ class MailActionExecutor(object):
         acl_users = getToolByName(self.context, 'acl_users')
         group = acl_users.getGroupById(room.getId()+'.'+area.getId()+'.notify')
         if group:
-            return ['aaa@asdf.com',]
+            for member in group.getGroupMembers():
+                yield member.getProperty('email')
 
 
 class MailForGroupwareNotificationAddForm(AddForm):

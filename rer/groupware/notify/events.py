@@ -46,7 +46,8 @@ class CreateNotificationGroupsEvent:
                                                    context=context.REQUEST))
             logger.info('Created group %s' % group_id)
             sgm_groups.append('%s.%s.notify' % (room_id, area.getId))
-        #sgm_groups.append('%s.hosts' %room_id)
+
+        # we will configure a coordinators group, but we are not creating it
         self.addSGMEntries(context, sgm_groups, '%s.coordinators' % room_id)
         
     def addSGMEntries(self, context, managed_groups, coordinator):
