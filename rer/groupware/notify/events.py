@@ -87,7 +87,7 @@ class CreateNotificationRulesEvent:
                                         mapping={"room_title" : context.Title(), "area_title": area.getId}),
                                        context=context.REQUEST)
             message_created=translate(_('notify_msg_created',
-                                        default=u'A document "${title}" has been created.\n'
+                                        default=u'The document "${title}" has been created.\n'
                                                 u'You can click on the following link to see it:\n'
                                                 u'${url}'),
                                       context=context.REQUEST)
@@ -132,8 +132,8 @@ class CreateNotificationRulesEvent:
                                         default=u'[${room_title}] document deleted inside area ${area_title}',
                                         mapping={"room_title" : context.Title(), "area_title": area.getId}),
                                        context=context.REQUEST)
-            message_deleted=translate(_('notify_msg_modified',
-                                        default=u'The document "${title}" has been deleted.\n'),
+            message_deleted=translate(_('notify_msg_deleted',
+                                        default=u'The document "${title}" has been deleted.'),
                                       context=context.REQUEST)
             rule_title = translate(_('notify_title_deleted',
                                      default=u'[${room_title}] notify for document deleted inside ${area_title}',

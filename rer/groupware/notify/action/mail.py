@@ -47,11 +47,12 @@ class IMailForGroupwareNotificationAction(Interface):
         description = _('help_message',
                         default=u"Type in here the message that you want to send. Some "
                                  "defined content can be replaced: ${title} will be replaced by the title "
-                                 "of the target item. ${url} will be replaced by the URL of the item.\n"
+                                 "of the document that raised the event.\n"
+                                 "${url} will be replaced by the URL of the item.\n"
                                  "${room_title} will be replaced by the name of the room.\n"
                                  "${room_url} will be replaced by the URL of the room.\n"
                                  "${area_title} will be replaced by the name of the area.\n"
-                                 "${area_url} will be replaced by the URL of the area.\n"                                 
+                                 "${area_url} will be replaced by the URL of the area."                                 
                                  ),
         required = True
         )

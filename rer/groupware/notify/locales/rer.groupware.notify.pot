@@ -1,0 +1,157 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2013-05-10 07:28+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ../events.py:43
+msgid "${room_title} ${area_title} notifications"
+msgstr ""
+
+#: ../action/mail.py:186
+msgid "A mail action for the Groupware suite."
+msgstr ""
+
+#: ../action/mail.py:185
+msgid "Add Groupware notification action"
+msgstr ""
+
+#: ../action/mail.py:200
+msgid "Configure Groupware notification action"
+msgstr ""
+
+#: ../action/mail.py:187
+msgid "Configure element"
+msgstr ""
+
+#: ../profiles/default/portlets.xml
+msgid "Groupware notification portlet"
+msgstr ""
+
+#: ../action/mail.py:46
+msgid "Mail message"
+msgstr ""
+
+#: ../profiles/default/portlets.xml
+msgid "Portlet for configure Groupware notifications in the site"
+msgstr ""
+
+#: ../action/mail.py:39
+msgid "Sender email"
+msgstr ""
+
+#: ../action/mail.py:33
+msgid "Subject"
+msgstr ""
+
+#: ../action/mail.py:34
+msgid "Subject of the message"
+msgstr ""
+
+#: ../action/mail.py:40
+msgid "The email address that sends the email. If no email is provided here, it will use the portal from address."
+msgstr ""
+
+#. Default: "Groupware notifications"
+#: ../action/mail.py:75
+msgid "action_summary"
+msgstr ""
+
+#: ../portlets/groups_notification_portlet.pt:19
+msgid "enable documents notify"
+msgstr ""
+
+#: ../portlets/groups_notification_portlet.pt:40
+msgid "enable news and events notify"
+msgstr ""
+
+#. Default: "Type in here the message that you want to send. Some defined content can be replaced: ${title} will be replaced by the title of the document that raised the event.\n${url} will be replaced by the URL of the item.\n${room_title} will be replaced by the name of the room.\n${room_url} will be replaced by the URL of the room.\n${area_title} will be replaced by the name of the area.\n${area_url} will be replaced by the URL of the area."
+#: ../action/mail.py:47
+msgid "help_message"
+msgstr ""
+
+#. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when new contents are added"
+#: ../events.py:98
+msgid "notify_description_created"
+msgstr ""
+
+#. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when contents are deleted"
+#: ../events.py:142
+msgid "notify_description_deleted"
+msgstr ""
+
+#. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when contents are modified"
+#: ../events.py:121
+msgid "notify_description_modified"
+msgstr ""
+
+#. Default: "The document \"${title}\" has been created.\nYou can click on the following link to see it:\n${url}"
+#: ../events.py:89
+msgid "notify_msg_created"
+msgstr ""
+
+#. Default: "The document \"${title}\" has been deleted."
+#: ../events.py:135
+msgid "notify_msg_deleted"
+msgstr ""
+
+#. Default: "The document \"${title}\" has been modified.\nYou can click on the following link to see it:\n${url}"
+#: ../events.py:112
+msgid "notify_msg_modified"
+msgstr ""
+
+#. Default: "[${room_title}] New document in area ${area_title}"
+#: ../events.py:85
+msgid "notify_subj_created"
+msgstr ""
+
+#. Default: "[${room_title}] document deleted inside area ${area_title}"
+#: ../events.py:131
+msgid "notify_subj_deleted"
+msgstr ""
+
+#. Default: "[${room_title}] document modified inside area ${area_title}"
+#: ../events.py:108
+msgid "notify_subj_modified"
+msgstr ""
+
+#. Default: "[${room_title}] notify for new document inside ${area_title}"
+#: ../events.py:94
+msgid "notify_title_created"
+msgstr ""
+
+#. Default: "[${room_title}] notify for document deleted inside ${area_title}"
+#: ../events.py:138
+msgid "notify_title_deleted"
+msgstr ""
+
+#. Default: "[${room_title}] notify for document edited inside ${area_title}"
+#: ../events.py:117
+msgid "notify_title_modified"
+msgstr ""
+
+#. Default: "Documents"
+#: ../portlets/groups_notification_portlet.pt:36
+msgid "portlet_room_label_docs"
+msgstr ""
+
+#. Default: "News and events"
+#: ../portlets/groups_notification_portlet.pt:57
+msgid "portlet_room_label_news_events"
+msgstr ""
+
+#. Default: "Notification management"
+#: ../portlets/groups_notification_portlet.pt:6
+msgid "portlet_room_title"
+msgstr ""
+
