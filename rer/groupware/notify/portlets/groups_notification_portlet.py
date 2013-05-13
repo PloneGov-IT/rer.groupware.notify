@@ -51,6 +51,10 @@ class Renderer(base.Renderer):
         pm = getToolByName(self.context,'portal_membership')
         if pm.isAnonymousUser():
             return False
+        # no portlet for top level acl_users
+        acl_users = getToolByName(self.context,'acl_users')
+        if self.member.getId() not in acl_users.getUserIds():
+            return False
         if not self.listNotificationGroups():
             return False
         return True

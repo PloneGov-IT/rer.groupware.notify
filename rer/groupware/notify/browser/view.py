@@ -24,11 +24,17 @@ class NotificationSubscriptionView(BrowserView):
             group = portal_groups.getGroupById(group_id)
             group_members = group.getMemberIds()
             userid = member.id
+            plone_utils = getToolByName(self.context, 'plone_utils')
             if userid not in group_members:
                 portal_groups.addPrincipalToGroup(userid, group_id)
+                plone_utils.addPortalMessage(_('added_to_notify_group',
+                                               default=u"User ${user} added to notification group",
+                                               mapping={'user': userid, 'group': group_id}))
             else:
                 portal_groups.removePrincipalFromGroup(userid, group_id)
-            getToolByName(self.context, 'plone_utils').addPortalMessage(_(u'Notification settings changed'))
+                plone_utils.addPortalMessage(_('removed_from_notify_group',
+                                               default=u"User ${user} removed from notification group",
+                                               mapping={'user': userid, 'group': group_id}))
         request.response.redirect(self.context.absolute_url())
     
     def _checkSecurity(self, member, room_id):
