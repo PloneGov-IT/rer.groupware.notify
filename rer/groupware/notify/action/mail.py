@@ -2,6 +2,8 @@
 
 from Acquisition import aq_inner, aq_parent
 from OFS.SimpleItem import SimpleItem
+
+from zope.i18n import translate
 from zope.component import adapts
 from zope.component.interfaces import ComponentLookupError
 from zope.interface import Interface, implements
@@ -91,7 +93,8 @@ class MailActionExecutor(object):
             raise ComponentLookupError, 'You must have a Mailhost utility to execute this action'
 
         source = element.source
-        urltool = getToolByName(aq_inner(self.context), "portal_url")
+        urltool = getToolByName(aq_inner(context), "portal_url")
+        mtool = getToolByName(aq_inner(context), "portal_membership")
         portal = urltool.getPortalObject()
         email_charset = portal.getProperty('email_charset')
         if not source:
@@ -111,12 +114,19 @@ class MailActionExecutor(object):
         area = self._getParentArea(context)
         room = self._getParentRoom(area)
 
+        if not mtool.isAnonymousUser():
+            member = mtool.getAuthenticatedMember()
+            user = member.getProperty('fullname') or member.getId()
+        else:
+            user = translate(_('Anonymous'), context=context.REQUEST) 
+
         subject = self.element.subject.replace("${url}", event_url)
         subject = subject.replace("${title}", obj_title)
         subject = subject.replace("${room_title}", room.Title())
         subject = subject.replace("${room_url}", room.absolute_url())
         subject = subject.replace("${area_title}", area.Title())
         subject = subject.replace("${area_url}", area.absolute_url())
+        subject = subject.replace("${user}", user)
         
         message = self.element.message.replace("${url}", event_url)
         message = message.replace("${title}", obj_title)
@@ -124,6 +134,7 @@ class MailActionExecutor(object):
         message = message.replace("${room_url}", room.absolute_url())
         message = message.replace("${area_title}", area.Title())
         message = message.replace("${area_url}", area.absolute_url())
+        message = message.replace("${user}", user)
 
         recipients = self._notification_recipients(room, area)
 
