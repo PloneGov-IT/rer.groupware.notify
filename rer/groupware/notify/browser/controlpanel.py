@@ -7,7 +7,6 @@ from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.registry.browser import controlpanel
 
 from z3c.form import button
-from z3c.form import group
 from z3c.form import field
 
 from rer.groupware.notify.interfaces import IGroupwareNotifySettings

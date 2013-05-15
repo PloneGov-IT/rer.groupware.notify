@@ -5,8 +5,6 @@ from zExceptions import Unauthorized
 from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
 
-from Products.CMFCore import permissions
-
 from rer.groupware.notify import messageFactory as _
 
 class NotificationSubscriptionView(BrowserView):

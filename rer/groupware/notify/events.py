@@ -6,7 +6,7 @@ from zope.component import getUtility, queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 
 from zope.app.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent
-from zope.app.container.interfaces import INameChooser
+#from zope.app.container.interfaces import INameChooser
 
 from Products.CMFCore.utils import getToolByName
 #from Products.Archetypes.interfaces import IObjectEditedEvent
@@ -81,7 +81,6 @@ class CreateNotificationRulesEvent:
     """ 
     
     def __init__(self, context, event):
-        room_title = context.Title()
         catalog = getToolByName(context, 'portal_catalog')
         
         results = catalog(object_provides=IRoomArea.__identifier__)
@@ -164,7 +163,7 @@ class CreateNotificationRulesEvent:
         rule.description = rule_description
         #add the rule to rule's storage
         storage = getUtility(IRuleStorage)
-        chooser = INameChooser(storage)
+        # chooser = INameChooser(storage)
         if rule_id not in storage.keys():
             storage[rule_id] = rule
             #set the action and add it to the rule

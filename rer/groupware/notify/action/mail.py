@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import logging
-
-from Acquisition import aq_inner, aq_base, aq_parent
+from Acquisition import aq_inner, aq_parent
 from OFS.SimpleItem import SimpleItem
 from zope.component import adapts
 from zope.component.interfaces import ComponentLookupError
@@ -10,16 +8,11 @@ from zope.interface import Interface, implements
 from zope.formlib import form
 from zope import schema
 
-from plone.app.vocabularies.groups import GroupsSource
-from plone.app.vocabularies.users import UsersSource
-
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
-
-from Products.Archetypes.interfaces import IBaseContent
 
 from rer.groupware.notify import messageFactory as _
 from rer.groupware.notify import logger
@@ -112,7 +105,6 @@ class MailActionExecutor(object):
             source = "%s <%s>" % (from_name, from_address)
 
         obj_title = safe_unicode(event.object.Title())
-        section_title = safe_unicode(context.Title())
         event_url = event.object.absolute_url()
         
         # find parent area and room
