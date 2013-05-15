@@ -41,6 +41,7 @@ class NotificationSubscriptionView(BrowserView):
         """
         if member.has_permission('rer.groupware.notify: Manage notification settings', self.context):
             return True
+        ### BBB: no, è da cambiare, vanno verificati tutti i gruppi
         if '%s.members' % room_id in member.getGroups():
             return True
         raise Unauthorized('You are not part of the room')

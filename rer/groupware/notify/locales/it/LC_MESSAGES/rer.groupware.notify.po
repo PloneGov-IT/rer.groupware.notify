@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-05-15 14:09+0000\n"
+"POT-Creation-Date: 2013-05-15 15:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,13 +14,9 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../events.py:57
-msgid "${room_title} ${area_title} notifications"
-msgstr "Notifiche ${room_title} ${area_title}"
-
-#: ../events.py:72
+#: ../events.py:73
 msgid "${room_title} comments notifications"
-msgstr "Notifiche commenti in ${room_title}"
+msgstr "Notifiche ${room_title} commenti"
 
 #: ../action/mail.py:191
 msgid "A mail action for the Groupware suite."
@@ -42,6 +38,10 @@ msgstr "Annulla"
 msgid "Changes saved"
 msgstr "Modifiche memorizzate"
 
+#: ../portlets/groups_notification_portlet.py:106
+msgid "Comments"
+msgstr "Commenti"
+
 #: ../action/mail.py:205
 msgid "Configure Groupware notification action"
 msgstr "Configura l'azione di notifica Groupware"
@@ -51,18 +51,26 @@ msgid "Configure element"
 msgstr "Configura l'elemento"
 
 #: ../portlets/groups_notification_portlet.pt:29
-msgid "Disable documents notify"
-msgstr "Disattiva notifiche documenti"
+msgid "Disable notifications"
+msgstr "Disabilita notifiche"
+
+#: ../portlets/groups_notification_portlet.pt:22
+msgid "Disabled"
+msgstr "Disabilitato"
 
 #: ../browser/controlpanel.py:38
 msgid "Edit cancelled"
 msgstr "Modifiche annullate"
 
 #: ../portlets/groups_notification_portlet.pt:17
-msgid "Enable documents notify"
-msgstr "Abilita notifiche documenti"
+msgid "Enable notifications"
+msgstr "Abilita modifiche"
 
-#: ../portlets/groups_notification_portlet.py:31
+#: ../portlets/groups_notification_portlet.pt:34
+msgid "Enabled"
+msgstr "Abilitato"
+
+#: ../portlets/groups_notification_portlet.py:32
 msgid "Groupware Notifications"
 msgstr "Notifiche Groupware"
 
@@ -139,27 +147,32 @@ msgstr ""
 "${area_url} sarà rimpiazzato dall'URL dell'area."
 
 #. Default: "All users inside the comments notification group of the room will be mailed when new comments are added"
-#: ../events.py:143
+#: ../events.py:144
 msgid "notify_description_comments"
 msgstr "Tutti gli utenti dentro al gruppo di notifica dei commenti verranno contattati via e-mail all'inserimento di nuovi commenti"
 
 #. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when new contents are added"
-#: ../events.py:175
+#: ../events.py:176
 msgid "notify_description_created"
 msgstr "Tutti gli utenti dentro al gruppo di notifica dell'area ${area_title} all'interno della stanza ${room_title} saranno notificati via mail quando un nuovo contenuto viene aggiunto"
 
 #. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when contents are deleted"
-#: ../events.py:219
+#: ../events.py:220
 msgid "notify_description_deleted"
 msgstr "Tutti gli utenti dentro al gruppo di notifica dell'area ${area_title} all'interno della stanza ${room_title} saranno notificati via mail quando un contenuto viene cancellato"
 
 #. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when contents are modified"
-#: ../events.py:198
+#: ../events.py:199
 msgid "notify_description_modified"
 msgstr "Tutti gli utenti dentro al gruppo di notifica dell'area ${area_title} all'interno della stanza ${room_title} saranno notificati via mail quando i contenuti vengono modificati"
 
+#. Default: "${room_title} ${area_title} Notifications"
+#: ../events.py:57
+msgid "notify_group_comment_id"
+msgstr "${room_title} ${area_title} Notifiche"
+
 #. Default: "A new comment \"${title}\" has been added by ${user}.\nYou can click on the following link to see the comment:\n${url}"
-#: ../events.py:134
+#: ../events.py:135
 msgid "notify_msg_comments"
 msgstr ""
 "Un nuovo commento \"${title}\" è stato aggiunto da ${user}.\n"
@@ -167,7 +180,7 @@ msgstr ""
 "${url}"
 
 #. Default: "The document \"${title}\" has been created.\nYou can click on the following link to see it:\n${url}"
-#: ../events.py:166
+#: ../events.py:167
 msgid "notify_msg_created"
 msgstr ""
 "Il documento \"${title}\" è stato creato.\n"
@@ -175,12 +188,12 @@ msgstr ""
 "${url}"
 
 #. Default: "The document \"${title}\" has been deleted."
-#: ../events.py:212
+#: ../events.py:213
 msgid "notify_msg_deleted"
 msgstr "Il documento \"${title}\" è stato rimosso."
 
 #. Default: "The document \"${title}\" has been modified.\nYou can click on the following link to see it:\n${url}"
-#: ../events.py:189
+#: ../events.py:190
 msgid "notify_msg_modified"
 msgstr ""
 "Il documento \"${title}\" è stato modificato.\n"
@@ -188,42 +201,42 @@ msgstr ""
 "${url}"
 
 #. Default: "[${room_title}] New comment"
-#: ../events.py:130
+#: ../events.py:131
 msgid "notify_subj_comments"
 msgstr "[${room_title}] Nuovo commento"
 
 #. Default: "[${room_title}] New document in area ${area_title}"
-#: ../events.py:162
+#: ../events.py:163
 msgid "notify_subj_created"
 msgstr "[${room_title}] nuovo documento dell'area ${area_title}"
 
 #. Default: "[${room_title}] document deleted inside area ${area_title}"
-#: ../events.py:208
+#: ../events.py:209
 msgid "notify_subj_deleted"
 msgstr "[${room_title}] documento cancellato nell'area ${area_title}"
 
 #. Default: "[${room_title}] document modified inside area ${area_title}"
-#: ../events.py:185
+#: ../events.py:186
 msgid "notify_subj_modified"
 msgstr "[${room_title}] documento modificato dell'area ${area_title}"
 
 #. Default: "[${room_title}] notify for new comments"
-#: ../events.py:139
+#: ../events.py:140
 msgid "notify_title_comments"
 msgstr "[${room_title}] notifica per nuovi commenti"
 
 #. Default: "[${room_title}] notify for new document inside ${area_title}"
-#: ../events.py:171
+#: ../events.py:172
 msgid "notify_title_created"
 msgstr "[${room_title}] notifica per nuovi documenti nell'area ${area_title}"
 
 #. Default: "[${room_title}] notify for document deleted inside ${area_title}"
-#: ../events.py:215
+#: ../events.py:216
 msgid "notify_title_deleted"
 msgstr "[${room_title}] notifica per documenti cancellati nell'area ${area_title}"
 
 #. Default: "[${room_title}] notify for document edited inside ${area_title}"
-#: ../events.py:194
+#: ../events.py:195
 msgid "notify_title_modified"
 msgstr "[${room_title}] notifica per documenti modificati nell'area ${area_title}"
 

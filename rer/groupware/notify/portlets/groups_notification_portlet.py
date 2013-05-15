@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from zope.interface import implements
+from zope.i18n import translate
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
@@ -66,6 +67,7 @@ class Renderer(base.Renderer):
         return portal_membership.getAuthenticatedMember()
 
     def listNotificationGroups(self):
+        """List of groups related to area notifications"""
         room = None
         for parent in self.context.aq_inner.aq_chain:
             if getattr(parent,'portal_type','') == 'GroupRoom':
@@ -81,23 +83,35 @@ class Renderer(base.Renderer):
         areas = catalog(object_provides=IRoomArea.__identifier__,
                         path={'query': '/'.join(room.getPhysicalPath()), 'depth': 1},
                         sort_on='getObjPositionInParent')
-        room_areas = []
+        groups = []
         acl_users = getToolByName(self.context, 'acl_users')
         notify_groups = [g for g in acl_users.getGroups() \
-                    if g.getId().startswith("%s." % self.room_id) and g.getId().endswith(".notify")]
+                    if g.getId().startswith("%s." % self.room_id) and \
+                g.getId().endswith(".notify")]
         for area in areas:
             area_data = {}
             area_data['id'] = area.getId
             area_data['title'] = area.Title
-            area_data['groups'] = [{'id': g.getId(),
-                                    'title': g.getProperty('title')} for g in notify_groups \
-                        if g.getId().startswith("%s.%s." % (self.room_id, area.getId))]
-            room_areas.append(area_data)
-        return room_areas
-    
+            group = acl_users.getGroupById("%s.%s.notify" % (self.room_id, area.getId))
+            if group:
+                area_data['group_data'] = {'id': group.getId(),
+                                           'title': group.getProperty('title') or group.getId()
+                                           }
+            groups.append(area_data)
+        
+        # other, not area related, groups
+        if '%s.comments.notify' % self.room_id in [x.getId() for x in notify_groups]:
+            group = acl_users.getGroupById("%s.comments.notify" % self.room_id)
+            groups.append({'id': 'comments',
+                           'title': translate(_(u'Comments'), context=self.context.REQUEST),
+                           'group_data':{'id': group.getId(),
+                                         'title': group.getProperty('title') or group.getId()
+                            }})
+        
+        return groups
+
     def inNotificationGroup(self, group):
         return group.get('id') in self.member.getGroups()
-
 
         
 class AddForm(base.NullAddForm):

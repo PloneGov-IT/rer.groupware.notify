@@ -10,30 +10,30 @@
     </dt>
     
     <dd class="portletItem">
-        <div tal:define="groups view/listNotificationGroups">
+        <div>
             <dl class="groupNotificationList">
-                <tal:areas repeat="area groups">
-                    <dd tal:repeat="group area/groups">
+                <tal:areas repeat="area view/listNotificationGroups">
+                    <dd tal:define="group area/group_data">
                         <a href=""
-                           title="Enable documents notify"
+                           title="Enable notifications"
                            tal:condition="python:not view.inNotificationGroup(group)"
                            i18n:attributes="title"
                            tal:attributes="href string:${here/absolute_url}/@@notification-subscription?room_id=${view/room_id}&area_id=${area/id}">
                             <img tal:attributes="src string:${here/portal_url}/++resource++rer.groupware.room.images/group_false.png"
-                                 alt="Enable documents notify"
+                                 alt="Disabled"
                                  role="checkbox"
                                  aria-checked="false"
                                  i18n:attributes="alt" />
                             <span tal:replace="area/title" />
                         </a>
                         <a href=""
-                           title="Disable documents notify"
+                           title="Disable notifications"
                            tal:condition="python:view.inNotificationGroup(group)"
                            i18n:attributes="title"
                            tal:attributes="href string:${here/absolute_url}/@@notification-subscription?room_id=${view/room_id}&area_id=${area/id}">
                             <img tal:attributes="src string:${here/portal_url}/++resource++rer.groupware.room.images/group_true.png"
                                  role="checkbox"
-                                 alt="Disable documents notify"
+                                 alt="Enabled"
                                  aria-checked="true"
                                  i18n:attributes="alt" />
                             <span tal:replace="area/title" />

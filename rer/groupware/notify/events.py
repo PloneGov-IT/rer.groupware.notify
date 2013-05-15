@@ -54,7 +54,8 @@ class CreateNotificationGroupsEvent:
             area = brain.getObject()
             group_id = '%s.%s.notify' % (room_id, area.getId())
             groups_tool.addGroup(id=group_id,
-                                 title=translate(_(u"${room_title} ${area_title} notifications",
+                                 title=translate(_('notify_group_comment_id',
+                                                   default=u"${room_title} ${area_title} Notifications",
                                                    mapping={"room_title" : room_title,
                                                             "area_title" : area.Title(),}),
                                                    context=context.REQUEST))
