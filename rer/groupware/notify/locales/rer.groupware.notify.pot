@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-05-15 15:56+0000\n"
+"POT-Creation-Date: 2013-05-16 10:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,19 +14,19 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../events.py:73
+#: ../events.py:77
 msgid "${room_title} comments notifications"
 msgstr ""
 
-#: ../action/mail.py:191
+#: ../action/mail.py:224
 msgid "A mail action for the Groupware suite."
 msgstr ""
 
-#: ../action/mail.py:190
+#: ../action/mail.py:223
 msgid "Add Groupware notification action"
 msgstr ""
 
-#: ../action/mail.py:121
+#: ../action/mail.py:130
 msgid "Anonymous"
 msgstr ""
 
@@ -42,11 +42,11 @@ msgstr ""
 msgid "Comments"
 msgstr ""
 
-#: ../action/mail.py:205
+#: ../action/mail.py:238
 msgid "Configure Groupware notification action"
 msgstr ""
 
-#: ../action/mail.py:192
+#: ../action/mail.py:225
 msgid "Configure element"
 msgstr ""
 
@@ -82,7 +82,7 @@ msgstr ""
 msgid "Groupware notification portlet"
 msgstr ""
 
-#: ../action/mail.py:41
+#: ../action/mail.py:44
 msgid "Mail message"
 msgstr ""
 
@@ -94,19 +94,19 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../action/mail.py:34
+#: ../action/mail.py:37
 msgid "Sender email"
 msgstr ""
 
-#: ../action/mail.py:28
+#: ../action/mail.py:31
 msgid "Subject"
 msgstr ""
 
-#: ../action/mail.py:29
+#: ../action/mail.py:32
 msgid "Subject of the message"
 msgstr ""
 
-#: ../action/mail.py:35
+#: ../action/mail.py:38
 msgid "The email address that sends the email. If no email is provided here, it will use the portal from address."
 msgstr ""
 
@@ -115,7 +115,7 @@ msgid "Types blacklist"
 msgstr ""
 
 #. Default: "Groupware notifications"
-#: ../action/mail.py:70
+#: ../action/mail.py:77
 msgid "action_summary"
 msgstr ""
 
@@ -135,92 +135,92 @@ msgid "help_groupwarenotify_settings_editform"
 msgstr ""
 
 #. Default: "Type in here the message that you want to send. Some defined content can be replaced: ${title} will be replaced by the title of the document that raised the event.\n${url} will be replaced by the URL of the item.\n${room_title} will be replaced by the name of the room.\n${room_url} will be replaced by the URL of the room.\n${area_title} will be replaced by the name of the area.\n${area_url} will be replaced by the URL of the area."
-#: ../action/mail.py:42
+#: ../action/mail.py:45
 msgid "help_message"
 msgstr ""
 
 #. Default: "All users inside the comments notification group of the room will be mailed when new comments are added"
-#: ../events.py:144
+#: ../events.py:153
 msgid "notify_description_comments"
 msgstr ""
 
 #. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when new contents are added"
-#: ../events.py:176
+#: ../events.py:188
 msgid "notify_description_created"
 msgstr ""
 
 #. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when contents are deleted"
-#: ../events.py:220
+#: ../events.py:232
 msgid "notify_description_deleted"
 msgstr ""
 
 #. Default: "All users inside the notification group of the area ${area_title} inside the room ${room_title} will be mailed when contents are modified"
-#: ../events.py:199
+#: ../events.py:211
 msgid "notify_description_modified"
 msgstr ""
 
 #. Default: "${room_title} ${area_title} Notifications"
-#: ../events.py:57
+#: ../events.py:58
 msgid "notify_group_comment_id"
 msgstr ""
 
-#. Default: "A new comment \"${title}\" has been added by ${user}.\nYou can click on the following link to see the comment:\n${url}"
-#: ../events.py:135
+#. Default: "A new comment has been added by ${user} to document ${parent_title}.\n\n${text}\n\nYou can click on the following link to see the comment:\n${url}"
+#: ../events.py:141
 msgid "notify_msg_comments"
 msgstr ""
 
-#. Default: "The document \"${title}\" has been created.\nYou can click on the following link to see it:\n${url}"
-#: ../events.py:167
+#. Default: "The document \"${title}\" has been created.\n\n${text}\n\nYou can click on the following link to see it:\n${url}"
+#: ../events.py:176
 msgid "notify_msg_created"
 msgstr ""
 
 #. Default: "The document \"${title}\" has been deleted."
-#: ../events.py:213
+#: ../events.py:225
 msgid "notify_msg_deleted"
 msgstr ""
 
 #. Default: "The document \"${title}\" has been modified.\nYou can click on the following link to see it:\n${url}"
-#: ../events.py:190
+#: ../events.py:202
 msgid "notify_msg_modified"
 msgstr ""
 
 #. Default: "[${room_title}] New comment"
-#: ../events.py:131
+#: ../events.py:137
 msgid "notify_subj_comments"
 msgstr ""
 
 #. Default: "[${room_title}] New document in area ${area_title}"
-#: ../events.py:163
+#: ../events.py:172
 msgid "notify_subj_created"
 msgstr ""
 
 #. Default: "[${room_title}] document deleted inside area ${area_title}"
-#: ../events.py:209
+#: ../events.py:221
 msgid "notify_subj_deleted"
 msgstr ""
 
 #. Default: "[${room_title}] document modified inside area ${area_title}"
-#: ../events.py:186
+#: ../events.py:198
 msgid "notify_subj_modified"
 msgstr ""
 
 #. Default: "[${room_title}] notify for new comments"
-#: ../events.py:140
+#: ../events.py:149
 msgid "notify_title_comments"
 msgstr ""
 
 #. Default: "[${room_title}] notify for new document inside ${area_title}"
-#: ../events.py:172
+#: ../events.py:184
 msgid "notify_title_created"
 msgstr ""
 
 #. Default: "[${room_title}] notify for document deleted inside ${area_title}"
-#: ../events.py:216
+#: ../events.py:228
 msgid "notify_title_deleted"
 msgstr ""
 
 #. Default: "[${room_title}] notify for document edited inside ${area_title}"
-#: ../events.py:195
+#: ../events.py:207
 msgid "notify_title_modified"
 msgstr ""
 

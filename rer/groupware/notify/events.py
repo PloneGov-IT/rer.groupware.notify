@@ -53,13 +53,16 @@ class CreateNotificationGroupsEvent:
         for brain in results:
             area = brain.getObject()
             group_id = '%s.%s.notify' % (room_id, area.getId())
-            groups_tool.addGroup(id=group_id,
-                                 title=translate(_('notify_group_comment_id',
-                                                   default=u"${room_title} ${area_title} Notifications",
-                                                   mapping={"room_title" : room_title,
-                                                            "area_title" : area.Title(),}),
-                                                   context=context.REQUEST))
-            logger.info('Created group %s' % group_id)
+            if not groups_tool.getGroupById(group_id):
+                groups_tool.addGroup(id=group_id,
+                                     title=translate(_('notify_group_comment_id',
+                                                       default=u"${room_title} ${area_title} Notifications",
+                                                       mapping={"room_title" : room_title,
+                                                                "area_title" : area.Title(),}),
+                                                       context=context.REQUEST))
+                logger.info('Created group %s' % group_id)
+            else:
+                logger.info('Group %s found: skipping' % group_id)
             self.sgm_groups.append(group_id)
 
     def createCommentGroup(self):
@@ -68,12 +71,15 @@ class CreateNotificationGroupsEvent:
 
         room_id = context.getId()
         room_title = context.Title()
-        group_id = '%s.comments.notify' % room_id    
-        groups_tool.addGroup(id=group_id,
-                             title=translate(_(u"${room_title} comments notifications",
-                                               mapping={"room_title" : room_title}),
-                                               context=context.REQUEST))
-        logger.info('Created group %s' % group_id)
+        group_id = '%s.comments.notify' % room_id  
+        if not groups_tool.getGroupById(group_id):
+            groups_tool.addGroup(id=group_id,
+                                 title=translate(_(u"${room_title} comments notifications",
+                                                   mapping={"room_title" : room_title}),
+                                                   context=context.REQUEST))
+            logger.info('Created group %s' % group_id)
+        else:
+            logger.info('Group %s found: skipping' % group_id)
         self.sgm_groups.append(group_id)    
 
     def configureSGM(self):
@@ -133,7 +139,10 @@ class CreateNotificationRulesEvent(object):
                              mapping={"room_title" : context.Title()}),
                           context=context.REQUEST)
         message=translate(_('notify_msg_comments',
-                            default=u'A new comment "${title}" has been added by ${user}.\n'
+                            default=u'A new comment has been added by ${user} to document ${parent_title}.\n'
+                                    u'\n'
+                                    u'${text}\n'
+                                    u'\n'
                                     u'You can click on the following link to see the comment:\n'
                                     u'${url}'),
                           context=context.REQUEST)
@@ -149,7 +158,7 @@ class CreateNotificationRulesEvent(object):
         room = self._getParentRoom(context)
         self.createRule(context, room, rule_id="%s-comments" % context.getId(), rule_title=rule_title,
                         rule_description=rule_description, rule_event=IObjectAddedEvent,
-                        subject=subject, message=message, for_types=('Discussion Item',))
+                        subject=subject, message=message, for_types=('Discussion Item',), area_id="comments")
 
 
     def createAreaRules(self):
@@ -166,6 +175,9 @@ class CreateNotificationRulesEvent(object):
                                       context=context.REQUEST)
             message_created=translate(_('notify_msg_created',
                                         default=u'The document "${title}" has been created.\n'
+                                                u'\n'
+                                                u'${text}\n'
+                                                u'\n'
                                                 u'You can click on the following link to see it:\n'
                                                 u'${url}'),
                                       context=context.REQUEST)
@@ -228,7 +240,11 @@ class CreateNotificationRulesEvent(object):
                             subject=subject_deleted, message=message_deleted)
 
     def createRule(self, context, rule_context, rule_id, rule_title, rule_description,
-                   rule_event, message, subject, for_types=None):
+                   rule_event, message, subject, for_types=None, area_id=None):
+        """
+        Enabled types are taken from the Plone registry, or you can manually set them using for_types
+        Id of the area (used for getting the notification group) is taken from current area, or by area_id param
+        """
         #create the rule
         rule = Rule()
         rule.__name__ = rule_id
@@ -241,7 +257,7 @@ class CreateNotificationRulesEvent(object):
         if rule_id not in storage.keys():
             storage[rule_id] = rule
             #set the action and add it to the rule
-            action = MailForGroupwareNotificationAction()
+            action = MailForGroupwareNotificationAction(area_id)
             
             action.sender = None
             action.subject=subject

@@ -2,6 +2,7 @@
 
 from Acquisition import aq_inner, aq_parent
 from OFS.SimpleItem import SimpleItem
+from OFS.interfaces import IApplication
 
 from zope.i18n import translate
 from zope.component import adapts
@@ -15,6 +16,8 @@ from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
+
+from Products.Archetypes.interfaces import IBaseContent
 
 from rer.groupware.notify import messageFactory as _
 from rer.groupware.notify import logger
@@ -65,6 +68,10 @@ class MailForGroupwareNotificationAction(SimpleItem):
 
     element = 'plone.actions.GroupwareMail'
 
+    def __init__(self, area_id=None):
+        super(MailForGroupwareNotificationAction, self).__init__()
+        self.area_id = area_id
+
     @property
     def summary(self):
         return _('action_summary',
@@ -90,7 +97,8 @@ class MailActionExecutor(object):
 
         mailhost = getToolByName(aq_inner(self.context), "MailHost")
         if not mailhost:
-            raise ComponentLookupError, 'You must have a Mailhost utility to execute this action'
+            logger.error('You must have a Mailhost utility to execute this action')
+            return False
 
         source = element.source
         urltool = getToolByName(aq_inner(context), "portal_url")
@@ -109,10 +117,11 @@ class MailActionExecutor(object):
 
         obj_title = safe_unicode(event.object.Title())
         event_url = event.object.absolute_url()
-        
+        parent = self._getParentDocument(aq_inner(event.object))
+
         # find parent area and room
         area = self._getParentArea(context)
-        room = self._getParentRoom(area)
+        room = self._getParentRoom(area or context)
 
         if not mtool.isAnonymousUser():
             member = mtool.getAuthenticatedMember()
@@ -124,19 +133,36 @@ class MailActionExecutor(object):
         subject = subject.replace("${title}", obj_title)
         subject = subject.replace("${room_title}", room.Title())
         subject = subject.replace("${room_url}", room.absolute_url())
-        subject = subject.replace("${area_title}", area.Title())
-        subject = subject.replace("${area_url}", area.absolute_url())
         subject = subject.replace("${user}", user)
         
+        if hasattr(event.object, 'text'):
+            text = event.object.text
+        elif hasattr(event.object, 'getText'):
+            transforms = getToolByName(context, 'portal_transforms')
+            text = event.object.getText()
+            stream = transforms.convertTo('text/plain', text, mimetype='text/html')
+            text = stream.getData().strip()
+        else:
+            text = ''
+        if text:
+            # identation
+            text = "\n".join(["\t" + l for l in text.splitlines()])
+
         message = self.element.message.replace("${url}", event_url)
         message = message.replace("${title}", obj_title)
         message = message.replace("${room_title}", room.Title())
         message = message.replace("${room_url}", room.absolute_url())
-        message = message.replace("${area_title}", area.Title())
-        message = message.replace("${area_url}", area.absolute_url())
         message = message.replace("${user}", user)
+        message = message.replace("${parent_title}", parent.title_or_id())
+        message = message.replace("${text}", text)
 
-        recipients = self._notification_recipients(room, area)
+        if area:
+            subject = subject.replace("${area_title}", area.Title())
+            subject = subject.replace("${area_url}", area.absolute_url())
+            message = message.replace("${area_title}", area.Title())
+            message = message.replace("${area_url}", area.absolute_url())
+
+        recipients = self._notification_recipients(room, area or element.area_id)
 
         # now tranform recipients in a iterator, if needed
         if type(recipients) == str or type(recipients) == unicode:
@@ -156,27 +182,40 @@ class MailActionExecutor(object):
 
         return True
 
+    def _getParentDocument(self, context):
+        """Return the parent document (in case of comments)""" 
+        while True:
+            if IBaseContent.providedBy(context):
+                return context
+            if IApplication.providedBy(context):
+                return None
+            context = aq_parent(context)
+
     def _getParentArea(self, context):
-        path = None
-        while path != '/':
+        while True:
             if IRoomArea.providedBy(context):
                 break
             context = aq_parent(aq_inner(context))
-            path = '/'.join(context.getPhysicalPath())
+            if IApplication.providedBy(context):
+                return None
         return context
 
     def _getParentRoom(self, context):
         path = None
-        while path != '/':
+        while True:
             if IGroupRoom.providedBy(context):
                 break
             context = aq_parent(aq_inner(context))
-            path = '/'.join(context.getPhysicalPath())
+            if IApplication.providedBy(context):
+                return None
         return context
 
     def _notification_recipients(self, room, area):
         acl_users = getToolByName(self.context, 'acl_users')
-        group = acl_users.getGroupById(room.getId()+'.'+area.getId()+'.notify')
+        if isinstance(area, basestring):
+            group = acl_users.getGroupById(room.getId()+'.' + area + '.notify')
+        else:
+            group = acl_users.getGroupById(room.getId()+'.' + area.getId() + '.notify')
         if group:
             for member in group.getGroupMembers():
                 yield member.getProperty('email')
