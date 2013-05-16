@@ -280,12 +280,14 @@ class CreateNotificationRulesEvent(object):
                 # explicit types
                 condition=PortalTypeCondition()
                 condition.check_types=tuple(for_types)
-                rule.conditions.append(condition)  
+                rule.conditions.append(condition)
             
-            #assignment
-            rule_id=rule.id.replace('++rule++','')
-            assignable = IRuleAssignmentManager(rule_context)
-            assignable[rule_id] = RuleAssignment(rule_id)
-            assignable[rule_id].bubbles=True
-            get_assignments(storage[rule_id]).insert('/'.join(rule_context.getPhysicalPath()))
-            logger.info('Created rule %s, enabled on %s' % (rule_id, rule_context.Title()))
+            logger.info('Created rule %s' % rule_id)
+            
+        #assignment
+        rule_id=rule.id.replace('++rule++','')
+        assignable = IRuleAssignmentManager(rule_context)
+        assignable[rule_id] = RuleAssignment(rule_id)
+        assignable[rule_id].bubbles=True
+        get_assignments(storage[rule_id]).insert('/'.join(rule_context.getPhysicalPath()))
+        logger.info('Enabled rule %s on %s' % (rule_id, rule_context.Title()))
