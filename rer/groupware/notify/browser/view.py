@@ -2,9 +2,14 @@
 
 from zExceptions import Unauthorized
 
+from zope.component import queryUtility
+
 from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
 
+from plone.registry.interfaces import IRegistry
+
+from rer.groupware.room.interfaces import IRoomGroupsSettingsSchema
 from rer.groupware.notify import messageFactory as _
 
 class NotificationSubscriptionView(BrowserView):
@@ -41,9 +46,14 @@ class NotificationSubscriptionView(BrowserView):
         """
         if member.has_permission('rer.groupware.notify: Manage notification settings', self.context):
             return True
-        ### BBB: no, è da cambiare, vanno verificati tutti i gruppi
-        if '%s.members' % room_id in member.getGroups():
-            return True
+
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IRoomGroupsSettingsSchema, check=False)
+        if settings:
+            for gname in settings.room_groups:
+                gid = gname.group_id 
+                if '%s.%s' % (room_id, gid) in member.getGroups():
+                    return True
         if raiseOnUnauth:
             raise Unauthorized('You are not part of the room')
         return False
