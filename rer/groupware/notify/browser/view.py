@@ -35,7 +35,7 @@ class NotificationSubscriptionView(BrowserView):
                                                mapping={'user': userid, 'group': group_id}))
         request.response.redirect(self.context.absolute_url())
     
-    def _checkSecurity(self, member, room_id):
+    def _checkSecurity(self, member, room_id, raiseOnUnauth=True):
         """If the user is not a poweruser, we need to check if he can really subscribe to the notification group.
         i.e: is part of the room?
         """
@@ -44,4 +44,6 @@ class NotificationSubscriptionView(BrowserView):
         ### BBB: no, è da cambiare, vanno verificati tutti i gruppi
         if '%s.members' % room_id in member.getGroups():
             return True
-        raise Unauthorized('You are not part of the room')
+        if raiseOnUnauth:
+            raise Unauthorized('You are not part of the room')
+        return False

@@ -2,6 +2,7 @@
 
 from zope.interface import implements
 from zope.i18n import translate
+from zope.component import getMultiAdapter
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
@@ -58,7 +59,16 @@ class Renderer(base.Renderer):
             return False
         if not self.listNotificationGroups():
             return False
+        # checking security: can't subscribe if I'm not member of the room
+        if not self._checkSecurity():
+            return False
         return True
+
+    def _checkSecurity(self):
+        view = getMultiAdapter((self.context, self.context.REQUEST),
+                               name=u'notification-subscription')
+        room = self._getContainerRoom()
+        return view._checkSecurity(self.member, room.getId(), raiseOnUnauth=False)
 
     @property
     @memoize
@@ -66,12 +76,17 @@ class Renderer(base.Renderer):
         portal_membership = getToolByName(self.context, 'portal_membership')
         return portal_membership.getAuthenticatedMember()
 
-    def listNotificationGroups(self):
-        """List of groups related to area notifications"""
+    @memoize
+    def _getContainerRoom(self):
         room = None
         for parent in self.context.aq_inner.aq_chain:
             if getattr(parent,'portal_type','') == 'GroupRoom':
                 room = parent
+        return room
+
+    def listNotificationGroups(self):
+        """List of groups related to area notifications"""
+        room = self._getContainerRoom()
         if not room:
             # I'm not in a room or subtree and the portlet will not be visible
             return []
