@@ -10,7 +10,7 @@
         />
   <permission
         id="rer.groupware.notify.SubscribeToNotifications"
-        title="rer.groupware.notify: Subscribe to notifications"
+        title="rer.groupware.notify: subscribe to notifications"
         />
 
 </configure>
