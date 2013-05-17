@@ -46,14 +46,9 @@ class NotificationSubscriptionView(BrowserView):
         """
         if member.has_permission('rer.groupware.notify: Manage notification settings', self.context):
             return True
-
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IRoomGroupsSettingsSchema, check=False)
-        if settings:
-            for gname in settings.room_groups:
-                gid = gname.group_id 
-                if '%s.%s' % (room_id, gid) in member.getGroups():
-                    return True
+        # BBB: checking by role?
+        if 'Active User' in member.getRolesInContext():
+            return True
         if raiseOnUnauth:
             raise Unauthorized('You are not part of the room')
         return False

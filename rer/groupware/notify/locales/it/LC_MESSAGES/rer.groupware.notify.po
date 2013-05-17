@@ -127,7 +127,9 @@ msgstr "Utente ${user} aggiunto al gruppo di notifica"
 #. Default: "Content types in this blacklist will not be added to the types of documents notified.\nPlease note that changes done to this list will only affect new notification groups."
 #: ../interfaces.py:20
 msgid "help_black_list"
-msgstr "Utente ${user} rimosso dal gruppo di notifica"
+msgstr ""
+"I tipi di contenuto in questa lista non saranno aggiunti ai tipi di documenti che verranno notificati.\n"
+"Da notare che le modifiche a questa lista influenzeranno solo i nuovi gruppi di notifica."
 
 #. Default: "Manage Groupware notification system"
 #: ../browser/controlpanel.py:22

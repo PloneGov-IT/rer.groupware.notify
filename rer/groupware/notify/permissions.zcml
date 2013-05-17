@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+	xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="rer.groupware.notify">
+
+  <permission
+        id="rer.groupware.notify.ManageSettings"
+        title="rer.groupware.notify: Manage notification settings"
+        />
+  <permission
+        id="rer.groupware.notify.SubscribeToNotifications"
+        title="rer.groupware.notify: Subscribe to notifications"
+        />
+
+</configure>

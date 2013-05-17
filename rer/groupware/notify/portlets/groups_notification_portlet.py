@@ -60,15 +60,9 @@ class Renderer(base.Renderer):
         if not self.listNotificationGroups():
             return False
         # checking security: can't subscribe if I'm not member of the room
-        if not self._checkSecurity():
+        if not 'Active User' in self.member.getRolesInContenxt():
             return False
         return True
-
-    def _checkSecurity(self):
-        view = getMultiAdapter((self.context, self.context.REQUEST),
-                               name=u'notification-subscription')
-        room = self._getContainerRoom()
-        return view._checkSecurity(self.member, room.getId(), raiseOnUnauth=False)
 
     @property
     @memoize

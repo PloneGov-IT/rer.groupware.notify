@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<rolemap>
+  <permissions>
+	<permission name="rer.groupware.notify: Manage notification settings"
+                acquire="False">
+	  <role name="Manager"/>
+	  <role name="Site Administrator"/>
+    </permission>
+	<permission name="rer.groupware.notify: subscribe to notifications"
+                acquire="False">
+	  <role name="Active User"/>
+    </permission>
+  </permissions>
+</rolemap>
