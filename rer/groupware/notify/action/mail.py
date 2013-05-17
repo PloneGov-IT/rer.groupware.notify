@@ -18,6 +18,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 
 from Products.Archetypes.interfaces import IBaseContent
+from Products.Archetypes.BaseUnit import BaseUnit
 
 from rer.groupware.notify import messageFactory as _
 from rer.groupware.notify import logger
@@ -137,6 +138,14 @@ class MailActionExecutor(object):
         
         if hasattr(event.object, 'text'):
             text = event.object.text
+            if isinstance(text, BaseUnit):
+                # Ploneabord?
+                text = str(text).decode('utf-8')
+                transforms = getToolByName(context, 'portal_transforms')
+                stream = transforms.convertTo('text/plain', text, mimetype='text/html')
+                text = stream.getData().strip() 
+            elif not isinstance(text, basestring):
+                text = str(text).decode('utf-8')
         elif hasattr(event.object, 'getText'):
             transforms = getToolByName(context, 'portal_transforms')
             text = event.object.getText()
@@ -144,6 +153,7 @@ class MailActionExecutor(object):
             text = stream.getData().strip()
         else:
             text = ''
+
         if text:
             # identation
             text = "\n".join(["\t" + l for l in text.splitlines()])

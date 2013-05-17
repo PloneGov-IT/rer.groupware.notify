@@ -60,7 +60,7 @@ class Renderer(base.Renderer):
         if not self.listNotificationGroups():
             return False
         # checking security: can't subscribe if I'm not member of the room
-        if not 'Active User' in self.member.getRolesInContenxt():
+        if not 'Active User' in self.member.getRolesInContext(self.context):
             return False
         return True
 

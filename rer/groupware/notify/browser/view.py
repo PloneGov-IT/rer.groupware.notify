@@ -47,7 +47,7 @@ class NotificationSubscriptionView(BrowserView):
         if member.has_permission('rer.groupware.notify: Manage notification settings', self.context):
             return True
         # BBB: checking by role?
-        if 'Active User' in member.getRolesInContext():
+        if 'Active User' in member.getRolesInContext(self.context):
             return True
         if raiseOnUnauth:
             raise Unauthorized('You are not part of the room')
