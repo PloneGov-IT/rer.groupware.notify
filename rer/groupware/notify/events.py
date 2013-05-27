@@ -164,7 +164,8 @@ class CreateNotificationRulesEvent(object):
     def createAreaRules(self):
         context = self.context
         catalog = getToolByName(context, 'portal_catalog') 
-        results = catalog(object_provides=IRoomArea.__identifier__)
+        results = catalog(object_provides=IRoomArea.__identifier__,
+                          path='/'.join(context.getPhysicalPath()))
 
         for brain in results:
             area = brain.getObject()
