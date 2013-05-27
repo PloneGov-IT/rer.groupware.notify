@@ -13,7 +13,8 @@
         <div>
             <dl class="groupNotificationList">
                 <tal:areas repeat="area view/listNotificationGroups">
-                    <dd tal:define="group area/group_data">
+                    <dd tal:define="group area/group_data"
+					    tal:condition="group">
                         <a href=""
                            title="Enable notifications"
                            tal:condition="python:not view.inNotificationGroup(group)"

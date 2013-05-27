@@ -102,6 +102,7 @@ class Renderer(base.Renderer):
             area_data['id'] = area.getId
             area_data['title'] = area.Title
             group = acl_users.getGroupById("%s.%s.notify" % (self.room_id, area.getId))
+            area_data['group_data'] = {}
             if group:
                 area_data['group_data'] = {'id': group.getId(),
                                            'title': group.getProperty('title') or group.getId()
