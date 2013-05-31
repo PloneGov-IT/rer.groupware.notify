@@ -2,7 +2,6 @@
 
 from zope.interface import implements
 from zope.i18n import translate
-from zope.component import getMultiAdapter
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName

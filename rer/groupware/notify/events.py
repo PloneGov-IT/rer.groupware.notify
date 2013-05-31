@@ -4,7 +4,6 @@ from Acquisition import aq_inner, aq_parent
 
 from zope.i18n import translate
 from zope.component import getUtility, queryUtility
-from zope.schema.interfaces import IVocabularyFactory
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
 from zope.app.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent
 #from zope.app.container.interfaces import INameChooser

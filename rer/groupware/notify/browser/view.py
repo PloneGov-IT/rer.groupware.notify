@@ -2,14 +2,9 @@
 
 from zExceptions import Unauthorized
 
-from zope.component import queryUtility
-
 from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
 
-from plone.registry.interfaces import IRegistry
-
-from rer.groupware.room.interfaces import IRoomGroupsSettingsSchema
 from rer.groupware.notify import messageFactory as _
 
 class NotificationSubscriptionView(BrowserView):

@@ -6,7 +6,6 @@ from OFS.interfaces import IApplication
 
 from zope.i18n import translate
 from zope.component import adapts
-from zope.component.interfaces import ComponentLookupError
 from zope.interface import Interface, implements
 from zope.formlib import form
 from zope import schema
@@ -211,7 +210,6 @@ class MailActionExecutor(object):
         return context
 
     def _getParentRoom(self, context):
-        path = None
         while True:
             if IGroupRoom.providedBy(context):
                 break
