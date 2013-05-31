@@ -35,10 +35,8 @@ class CreateNotificationGroupsEvent:
     def __init__(self, context, event):
         self.context = context
         self.event = event
-        self.sgm_groups = []
         self.createAreaGroups()
         self.createCommentGroup()
-        self.configureSGM()
     
     def createAreaGroups(self):
         context = self.context
@@ -62,7 +60,6 @@ class CreateNotificationGroupsEvent:
                 logger.info('Created group %s' % group_id)
             else:
                 logger.info('Group %s found: skipping' % group_id)
-            self.sgm_groups.append(group_id)
 
     def createCommentGroup(self):
         context = self.context
@@ -79,32 +76,6 @@ class CreateNotificationGroupsEvent:
             logger.info('Created group %s' % group_id)
         else:
             logger.info('Group %s found: skipping' % group_id)
-        self.sgm_groups.append(group_id)    
-
-    def configureSGM(self):
-        context = self.context
-        room_id = context.getId()
-        # we will configure a coordinators group, but we are not creating it
-        self.addSGMEntries(context, self.sgm_groups, '%s.coordinators' % room_id)
-
-
-    def addSGMEntries(self, context, managed_groups, coordinator):
-        """
-        Set SGM properties with new-created groups.
-        """
-        portal_properties = getToolByName(context, 'portal_properties', None)
-        if not portal_properties:
-            return
-        sgm_properties = getattr(portal_properties, 'simple_groups_management_properties', None)
-        if not sgm_properties:
-            logger.warning('SimpleGroupsManagement not found. Skipping configuration.')
-            return
-        sgm_groups = set(sgm_properties.getProperty('sgm_data', None))
-        for group in managed_groups:
-            sgm_groups.add('%s|%s' % (coordinator, group))
-        
-        sgm_properties._updateProperty('sgm_data',tuple(sgm_groups))
-        logger.info('SGM properties set.')
 
 
 class CreateNotificationRulesEvent(object):
