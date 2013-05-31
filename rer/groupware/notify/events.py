@@ -270,11 +270,9 @@ class CreateNotificationRulesEvent(object):
                 registry = queryUtility(IRegistry)
                 settings = registry.forInterface(IGroupwareNotifySettings, check=False)
                 if settings:
-                    factory = getUtility(IVocabularyFactory, 'plone.app.vocabularies.ReallyUserFriendlyTypes')
-                    vocabulary = factory(context)
-                    all_types = [t.value for t in vocabulary._terms]
-                    types_list =  set(all_types).difference(settings.black_list)
-                    condition=PortalTypeCondition()
+                    allowed_types = rule_context.getLocallyAllowedTypes()
+                    types_list =  set(allowed_types).difference(settings.black_list)
+                    condition = PortalTypeCondition()
                     condition.check_types=tuple(types_list)
                     rule.conditions.append(condition)  
             else:
