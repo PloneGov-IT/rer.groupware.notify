@@ -3,7 +3,7 @@
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
-        <span i18n:translate="portlet_room_title">
+        <span class="tile" i18n:translate="portlet_room_title">
             <span class="roomName" i18n:name="room_name" tal:content="view/room_title" /> notifications
         </span>
         <span class="portletTopRight"></span>
