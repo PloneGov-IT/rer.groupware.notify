@@ -162,8 +162,8 @@ class MailActionExecutor(object):
         message = message.replace("${room_title}", room.Title())
         message = message.replace("${room_url}", room.absolute_url())
         message = message.replace("${user}", user)
-        message = message.replace("${parent_title}", parent.title_or_id())
-        message = message.replace("${text}", text)
+        message = message.replace("${parent_title}", parent.title_or_id().decode('utf-8'))
+        message = message.replace("${text}", text.decode('utf-8'))
 
         if area:
             subject = subject.replace("${area_title}", area.Title())
