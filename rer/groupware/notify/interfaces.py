@@ -14,7 +14,7 @@ class IGroupwareNotifySettings(Interface):
     """
     Settings used in the control panel for Groupware notifications
     """
-    
+
     black_list = schema.Tuple(
         title=_(u"Types blacklist"),
         description=_('help_black_list',
@@ -23,4 +23,11 @@ class IGroupwareNotifySettings(Interface):
         required=False,
         default=('Folder', 'Topic', 'Collection', ),
         value_type=schema.Choice(vocabulary=u"plone.app.vocabularies.ReallyUserFriendlyTypes"),
+    )
+
+    default_email_sender = schema.TextLine(
+        title=_(u"Defaul email sender"),
+        description=_('help_default_emai_sender',
+                      default=u"Insert a default email sender for notifications"),
+        required=False,
     )

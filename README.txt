@@ -11,3 +11,5 @@ that a new document is *created*, *modified* or *deleted*.
 
 Installing this product will also register a **new portlet**. This portlet will only appear inside a Room, and
 members if the Room will be able to manage subscriptions by themself.
+
+You can set a default sender email that will be used to create new rules. You can set it from @@groupware-notify-settings control panel

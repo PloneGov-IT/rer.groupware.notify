@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:gs="http://namespaces.zope.org/genericsetup"
+    i18n_domain="rer.groupware.notify">
+       
+  <!-- Upgrade steps -->
+  <gs:upgradeStep
+        title="Upgrade rer.groupware.notify 1.1.0"
+        description="rer.groupware.notify upgrade step"
+        source="1000"
+        destination="2000"
+        handler=".upgrades.to_2000"
+        profile="rer.groupware.notify:default" />
+
+</configure>

@@ -10,6 +10,7 @@
 
   <include package="rer.groupware.room" />
   <include file="permissions.zcml" />
+  <include file="upgrades.zcml" />
   <include package=".portlets" />
   <include package=".action" />
   <include package=".browser" />

@@ -216,6 +216,8 @@ class CreateNotificationRulesEvent(object):
         Enabled types are taken from the Plone registry, or you can manually set them using for_types
         Id of the area (used for getting the notification group) is taken from current area, or by area_id param
         """
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IGroupwareNotifySettings, check=False)
         #create the rule
         rule = Rule()
         rule.__name__ = rule_id
@@ -229,16 +231,15 @@ class CreateNotificationRulesEvent(object):
             storage[rule_id] = rule
             #set the action and add it to the rule
             action = MailForGroupwareNotificationAction(area_id)
-            
+            if settings and settings.default_email_sender:
+                action.source = settings.default_email_sender
             action.sender = None
-            action.subject=subject
-            action.message=message
+            action.subject = subject
+            action.message = message
             rule.actions.append(action)
-            
+
             if not for_types:
                 #set the condition and add it to the rule
-                registry = queryUtility(IRegistry)
-                settings = registry.forInterface(IGroupwareNotifySettings, check=False)
                 if settings:
                     allowed_types = rule_context.getLocallyAllowedTypes()
                     types_list =  set(allowed_types).difference(settings.black_list)
