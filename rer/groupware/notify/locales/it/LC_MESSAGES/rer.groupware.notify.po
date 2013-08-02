@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-07-26 16:13+0000\n"
+"POT-Creation-Date: 2013-08-02 14:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 msgid "${room_title} comments notifications"
 msgstr "Notifiche ${room_title} Commenti"
 
-#: ../action/mail.py:238
+#: ../action/mail.py:221
 msgid "A mail action for the Groupware suite."
 msgstr "Un'azione di invio mail per il Groupware"
 
-#: ../action/mail.py:237
+#: ../action/mail.py:220
 msgid "Add Groupware notification action"
 msgstr "Aggiungi un'azione di notifica Groupware"
 
-#: ../action/mail.py:130
+#: ../action/mail.py:134
 msgid "Anonymous"
 msgstr "Anonimo"
 
@@ -42,11 +42,11 @@ msgstr "Modifiche memorizzate"
 msgid "Comments"
 msgstr "Commenti"
 
-#: ../action/mail.py:252
+#: ../action/mail.py:235
 msgid "Configure Groupware notification action"
 msgstr "Configura l'azione di notifica Groupware"
 
-#: ../action/mail.py:239
+#: ../action/mail.py:222
 msgid "Configure element"
 msgstr "Configura l'elemento"
 
@@ -86,7 +86,7 @@ msgstr "Impostazioni notifiche del Groupware"
 msgid "Groupware notification portlet"
 msgstr "Portlet di notifica Groupware"
 
-#: ../action/mail.py:44
+#: ../action/mail.py:45
 msgid "Mail message"
 msgstr "Messaggio e-mail"
 
@@ -98,19 +98,19 @@ msgstr "Portlet per configurare le notifiche del Groupware nel sito"
 msgid "Save"
 msgstr "Salva"
 
-#: ../action/mail.py:37
+#: ../action/mail.py:38
 msgid "Sender email"
 msgstr "Mittende e-mail"
 
-#: ../action/mail.py:31
+#: ../action/mail.py:32
 msgid "Subject"
 msgstr "Oggetto"
 
-#: ../action/mail.py:32
+#: ../action/mail.py:33
 msgid "Subject of the message"
 msgstr "Oggetto del messaggio"
 
-#: ../action/mail.py:38
+#: ../action/mail.py:39
 msgid "The email address that sends the email. If no email is provided here, it will use the portal from address."
 msgstr "L'indirizzo e-mail del mittente del messaggio. Se nessun indirizzo viene fornito verrà usato quello delle impostazioni del sito."
 
@@ -119,7 +119,7 @@ msgid "Types blacklist"
 msgstr "Blacklist dei tipi"
 
 #. Default: "Groupware notifications"
-#: ../action/mail.py:77
+#: ../action/mail.py:78
 msgid "action_summary"
 msgstr "Notifiche Groupware"
 
@@ -146,7 +146,7 @@ msgid "help_groupwarenotify_settings_editform"
 msgstr "Gestione notifiche del Groupware"
 
 #. Default: "Type in here the message that you want to send. Some defined content can be replaced: ${title} will be replaced by the title of the document that raised the event.\n${url} will be replaced by the URL of the item.\n${room_title} will be replaced by the name of the room.\n${room_url} will be replaced by the URL of the room.\n${area_title} will be replaced by the name of the area.\n${area_url} will be replaced by the URL of the area."
-#: ../action/mail.py:45
+#: ../action/mail.py:46
 msgid "help_message"
 msgstr ""
 "Scrivi qui il messaggio che vuoi inviare.\n"

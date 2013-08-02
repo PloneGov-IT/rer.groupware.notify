@@ -133,7 +133,7 @@ class MailActionExecutor(object):
         else:
             user = translate(_('Anonymous'), context=context.REQUEST) 
 
-        subject = interpolator(subject)
+        subject = interpolator(self.element.subject)
 
         subject = subject.replace("${room_title}", room.Title())
         subject = subject.replace("${room_url}", room.absolute_url())
