@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.1.1.dev0'
+version = '1.2.0.dev0'
 
 setup(name='rer.groupware.notify',
       version=version,
@@ -26,6 +26,7 @@ setup(name='rer.groupware.notify',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.stringinterp',
           'rer.groupware.room',
           'Products.SimpleGroupsManagement',
       ],

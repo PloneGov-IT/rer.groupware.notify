@@ -10,6 +10,7 @@ from zope.interface import Interface, implements
 from zope.formlib import form
 from zope import schema
 
+from plone.stringinterp.interfaces import IStringInterpolator
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
 
@@ -93,7 +94,10 @@ class MailActionExecutor(object):
         context = self.context
         element = self.element
         event = self.event
+        obj = event.object
         recipients = []      
+
+        interpolator = IStringInterpolator(obj)
 
         mailhost = getToolByName(aq_inner(self.context), "MailHost")
         if not mailhost:
@@ -115,9 +119,9 @@ class MailActionExecutor(object):
             from_name = portal.getProperty('email_from_name')
             source = "%s <%s>" % (from_name, from_address)
 
-        obj_title = safe_unicode(event.object.Title())
-        event_url = event.object.absolute_url()
-        parent = self._getParentDocument(aq_inner(event.object))
+        obj_title = safe_unicode(obj.Title())
+        event_url = obj.absolute_url()
+        parent = self._getParentDocument(aq_inner(obj))
 
         # find parent area and room
         area = self._getParentArea(context)
@@ -129,41 +133,20 @@ class MailActionExecutor(object):
         else:
             user = translate(_('Anonymous'), context=context.REQUEST) 
 
-        subject = self.element.subject.replace("${url}", event_url)
-        subject = subject.replace("${title}", obj_title)
+        subject = interpolator(subject)
+
         subject = subject.replace("${room_title}", room.Title())
         subject = subject.replace("${room_url}", room.absolute_url())
         subject = subject.replace("${user}", user)
+
+        # prepend interpolated message with \n to avoid interpretation
+        # of first line as header
+        message = "\n%s" % interpolator(self.element.message)
         
-        if hasattr(event.object, 'text'):
-            text = event.object.text
-            if isinstance(text, BaseUnit):
-                # Ploneabord?
-                text = str(text).decode('utf-8')
-                transforms = getToolByName(context, 'portal_transforms')
-                stream = transforms.convertTo('text/plain', text, mimetype='text/html')
-                text = stream.getData().strip() 
-            elif not isinstance(text, basestring):
-                text = str(text).decode('utf-8')
-        elif hasattr(event.object, 'getText'):
-            transforms = getToolByName(context, 'portal_transforms')
-            text = event.object.getText()
-            stream = transforms.convertTo('text/plain', text, mimetype='text/html')
-            text = stream.getData().strip()
-        else:
-            text = ''
-
-        if text:
-            # identation
-            text = "\n".join(["\t" + l for l in text.splitlines()])
-
-        message = self.element.message.replace("${url}", event_url)
-        message = message.replace("${title}", obj_title)
         message = message.replace("${room_title}", room.Title())
         message = message.replace("${room_url}", room.absolute_url())
         message = message.replace("${user}", user)
         message = message.replace("${parent_title}", parent.title_or_id().decode('utf-8'))
-        message = message.replace("${text}", text.decode('utf-8'))
 
         if area:
             subject = subject.replace("${area_title}", area.Title())

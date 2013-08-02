@@ -1,18 +1,18 @@
 Changelog
 =========
 
-1.1.1 (unreleased)
+1.2.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Use plone.stringinterp for standard Plone interpolations
+  [keul]
 
 1.1.0 (2013-07-26)
 ------------------
 
 - If default_email_sender registry property is set, the sender of rules 
-  will be set with that address[andrea]
-
+  will be set with that address
+  [andrea]
 
 1.0.0 (2013-06-24)
 ------------------
