@@ -41,19 +41,18 @@ class Renderer(base.Renderer):
         self.__parent__ = view
         self.manager = manager
         self.data = data
-        
         self.room_title = ''
         self.room_id = ''
-            
+
     render = ViewPageTemplateFile('groups_notification_portlet.pt')
-    
+
     @property
     def available(self):
-        pm = getToolByName(self.context,'portal_membership')
+        pm = getToolByName(self.context, 'portal_membership')
         if pm.isAnonymousUser():
             return False
         # no portlet for top level acl_users
-        acl_users = getToolByName(self.context,'acl_users')
+        acl_users = getToolByName(self.context, 'acl_users')
         if self.member.getId() not in acl_users.getUserIds():
             return False
         if not self.listNotificationGroups():

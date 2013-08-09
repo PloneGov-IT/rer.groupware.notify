@@ -16,7 +16,7 @@ msgstr ""
 
 #: ../events.py:73
 msgid "${room_title} comments notifications"
-msgstr "Notifiche ${room_title} Commenti"
+msgstr "${room_title} Notifiche Commenti"
 
 #: ../action/mail.py:221
 msgid "A mail action for the Groupware suite."

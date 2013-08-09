@@ -4,7 +4,8 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed translation [andrea]
+- Fixed query catalog for areas in room in the event. Now results are filtered by room path [andrea]
 
 
 1.2.0 (2013-08-02)
