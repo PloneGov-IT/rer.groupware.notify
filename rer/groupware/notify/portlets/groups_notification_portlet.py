@@ -53,7 +53,7 @@ class Renderer(base.Renderer):
             return False
         # no portlet for top level acl_users
         acl_users = getToolByName(self.context, 'acl_users')
-        if self.member.getId() not in acl_users.getUserIds():
+        if not acl_users.searchUsers(id=self.member.getId()):
             return False
         if not self.listNotificationGroups():
             return False
