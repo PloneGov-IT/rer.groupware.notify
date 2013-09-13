@@ -27,6 +27,7 @@ setup(name='rer.groupware.notify',
       install_requires=[
           'setuptools',
           'plone.stringinterp',
+          'collective.stringinterp.text',
           'rer.groupware.room',
           'Products.SimpleGroupsManagement',
       ],
