@@ -135,7 +135,7 @@ class MailActionExecutor(object):
 
         subject = interpolator(self.element.subject)
 
-        subject = subject.replace("${room_title}", room.Title())
+        subject = subject.replace("${room_title}", room.Title().decode('utf-8'))
         subject = subject.replace("${room_url}", room.absolute_url())
         subject = subject.replace("${user}", user)
 
@@ -143,15 +143,15 @@ class MailActionExecutor(object):
         # of first line as header
         message = "\n%s" % interpolator(self.element.message)
         
-        message = message.replace("${room_title}", room.Title())
+        message = message.replace("${room_title}", room.Title().decode('utf-8'))
         message = message.replace("${room_url}", room.absolute_url())
         message = message.replace("${user}", user)
         message = message.replace("${parent_title}", parent.title_or_id().decode('utf-8'))
 
         if area:
-            subject = subject.replace("${area_title}", area.Title())
+            subject = subject.replace("${area_title}", area.Title().decode('utf-8'))
             subject = subject.replace("${area_url}", area.absolute_url())
-            message = message.replace("${area_title}", area.Title())
+            message = message.replace("${area_title}", area.Title().decode('utf-8'))
             message = message.replace("${area_url}", area.absolute_url())
 
         recipients = self._notification_recipients(room, area or element.area_id)
