@@ -44,7 +44,7 @@ class CreateNotificationGroupsEvent:
         catalog = getToolByName(context, 'portal_catalog')
 
         room_id = context.getId()
-        room_title = context.Title()
+        room_title = context.Title().decode('utf-8')
         results = catalog(object_provides=IRoomArea.__identifier__)
 
         for brain in results:
@@ -54,7 +54,7 @@ class CreateNotificationGroupsEvent:
                 groups_tool.addGroup(id=group_id,
                                      title=translate(_('notify_group_comment_id',
                                                        default=u"${room_title} ${area_title} Notifications",
-                                                       mapping={"room_title" : room_title.decode('utf-8'),
+                                                       mapping={"room_title" : room_title,
                                                                 "area_title" : area.Title(),}),
                                                        context=context.REQUEST))
                 logger.info('Created group %s' % group_id)
@@ -71,7 +71,7 @@ class CreateNotificationGroupsEvent:
         if not groups_tool.getGroupById(group_id):
             groups_tool.addGroup(id=group_id,
                                  title=translate(_(u"${room_title} comments notifications",
-                                                   mapping={"room_title" : room_title.decode('utf-8')}),
+                                                   mapping={"room_title" : room_title}),
                                                    context=context.REQUEST))
             logger.info('Created group %s' % group_id)
         else:
@@ -183,7 +183,7 @@ class CreateNotificationRulesEvent(object):
                                            default=u'All users inside the notification group of the area '
                                                    u'${area_title} inside the room ${room_title} will be '
                                                    u'mailed when contents are modified',
-                                           mapping={"room_title" : context.Title(), "area_title": area.Title()}),
+                                           mapping={"room_title" : context.Title().decode('utf-8'), "area_title": area.Title()}),
                                          context=context.REQUEST)
             self.createRule(context, area, rule_id="%s-%s-modified" % (context.getId(), area.getId()), rule_title=rule_title,
                             rule_description=rule_description,  rule_event=IObjectModifiedEvent,
