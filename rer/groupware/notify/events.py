@@ -160,7 +160,7 @@ class CreateNotificationRulesEvent(object):
                                            default=u'All users inside the notification group of the area '
                                                    u'${area_title} inside the room ${room_title} will be '
                                                    u'mailed when new contents are added',
-                                           mapping={"room_title" : context.Title(), "area_title": area.Title()}),
+                                           mapping={"room_title" : context.Title().decode('utf-8'), "area_title": area.Title()}),
                                          context=context.REQUEST)
             self.createRule(context, area, rule_id="%s-%s-created" % (context.getId(), area.getId()), rule_title=rule_title,
                             rule_description=rule_description, rule_event=IObjectAddedEvent,
