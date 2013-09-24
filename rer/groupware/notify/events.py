@@ -170,7 +170,7 @@ class CreateNotificationRulesEvent(object):
                                          default=u'[${room_title}] document modified inside area ${area_title}',
                                          mapping={"room_title" : context.Title(), "area_title": area.getId()}),
                                        context=context.REQUEST)
-            subject_modified=translate(_('notify_msg_modified',
+            message_modified=translate(_('notify_msg_modified',
                                          default=u'The document "${title}" has been modified.\n'
                                                  u'You can click on the following link to see it:\n'
                                                  u'${url}'),
@@ -187,7 +187,7 @@ class CreateNotificationRulesEvent(object):
                                          context=context.REQUEST)
             self.createRule(context, area, rule_id="%s-%s-modified" % (context.getId(), area.getId()), rule_title=rule_title,
                             rule_description=rule_description,  rule_event=IObjectModifiedEvent,
-                            subject=subject_modified, message=subject_modified)
+                            subject=subject_modified, message=message_modified)
 
             subject_deleted=translate(_('notify_subj_deleted',
                                         default=u'[${room_title}] document deleted inside area ${area_title}',

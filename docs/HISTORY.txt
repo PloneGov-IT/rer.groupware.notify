@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.2.1 (2013-09-24)
+------------------
+
+- Fix rule mail sendere for rooms with accents [andrea]
+- Fix rule message for modified contents [andrea]
+
 1.2.0 (2013-08-02)
 ------------------
 
