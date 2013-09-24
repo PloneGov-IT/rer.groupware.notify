@@ -260,4 +260,4 @@ class CreateNotificationRulesEvent(object):
         assignable[rule_id] = RuleAssignment(rule_id)
         assignable[rule_id].bubbles=True
         get_assignments(storage[rule_id]).insert('/'.join(rule_context.getPhysicalPath()))
-        logger.info('Enabled rule %s on %s' % (rule_id, rule_context.Title()))
+        logger.info('Enabled rule %s on %s' % (rule_id, rule_context.Title().decode('utf-8')))
