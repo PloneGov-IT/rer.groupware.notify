@@ -66,7 +66,7 @@ class CreateNotificationGroupsEvent:
         groups_tool = getToolByName(context,'portal_groups')
 
         room_id = context.getId()
-        room_title = context.Title()
+        room_title = context.Title().decode('utf-8')
         group_id = '%s.comments.notify' % room_id  
         if not groups_tool.getGroupById(group_id):
             groups_tool.addGroup(id=group_id,
