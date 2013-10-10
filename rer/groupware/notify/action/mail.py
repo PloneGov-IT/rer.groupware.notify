@@ -95,8 +95,7 @@ class MailActionExecutor(object):
         element = self.element
         event = self.event
         obj = event.object
-        recipients = []      
-
+        recipients = []
         interpolator = IStringInterpolator(obj)
 
         mailhost = getToolByName(aq_inner(self.context), "MailHost")

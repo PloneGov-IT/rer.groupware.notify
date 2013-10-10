@@ -149,7 +149,7 @@ class CreateNotificationRulesEvent(BaseEventClass):
                 for_types.append('PloneboardComment')
             subject_created = translate(_('notify_subj_created',
                                         default=u'[${room_title}] New content has been created in area ${area_title}',
-                                        mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.getId()}),
+                                        mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
                                       context=context.REQUEST,
                                       target_language=self.language)
             message_created = translate(_('notify_msg_created',
