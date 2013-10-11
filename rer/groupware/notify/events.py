@@ -179,7 +179,7 @@ class CreateNotificationRulesEvent(BaseEventClass):
 
             subject_modified = translate(_('notify_subj_modified',
                                          default=u'[${room_title}] A content has been modified inside area ${area_title}',
-                                         mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.getId()}),
+                                         mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
                                        context=context.REQUEST,
                                        target_language=self.language)
             message_modified = translate(_('notify_msg_modified',
@@ -206,7 +206,7 @@ class CreateNotificationRulesEvent(BaseEventClass):
 
             subject_deleted = translate(_('notify_subj_deleted',
                                         default=u'[${room_title}] A content has been deleted inside area ${area_title}',
-                                        mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.getId()}),
+                                        mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
                                       context=context.REQUEST,
                                       target_language=self.language)
             message_deleted = translate(_('notify_msg_deleted',
