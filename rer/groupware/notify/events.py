@@ -40,12 +40,13 @@ class CreateNotificationGroupsEvent:
     
     def createAreaGroups(self):
         context = self.context
-        groups_tool = getToolByName(context,'portal_groups')
+        groups_tool = getToolByName(context, 'portal_groups')
         catalog = getToolByName(context, 'portal_catalog')
 
         room_id = context.getId()
         room_title = context.Title().decode('utf-8')
-        results = catalog(object_provides=IRoomArea.__identifier__)
+        results = catalog(object_provides=IRoomArea.__identifier__,
+                          path='/'.join(context.getPhysicalPath()))
 
         for brain in results:
             area = brain.getObject()

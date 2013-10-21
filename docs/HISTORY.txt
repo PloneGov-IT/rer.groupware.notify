@@ -1,10 +1,16 @@
 Changelog
 =========
 
+1.2.2 (2013-10-21)
+------------------
+
+- Fixed query catalog for areas in room in the event. Now results are filtered by room path [andrea]
+- Fix portlet's available method [andrea]
+
 1.2.1 (2013-09-24)
 ------------------
 
-- Fix rule mail sendere for rooms with accents [andrea]
+- Fix rule mail sender for rooms with accents [andrea]
 - Fix rule message for modified contents [andrea]
 
 1.2.0 (2013-08-02)
