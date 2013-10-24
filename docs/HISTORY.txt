@@ -8,6 +8,7 @@ Changelog
 - Added multi-language support in creation event [andrea]
 - Added for_types exception for PloneBoard area. Now rules are filtered for PloneboardComment [andrea]
 - Add fullname in portal_message after subscription/unsubscription action [andrea]
+- Add check to show areas: if is excluded from nav, doesn't show it in the portlet [andrea]
 
 1.2.2 (2013-10-21)
 ------------------
