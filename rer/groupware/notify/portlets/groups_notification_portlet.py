@@ -89,6 +89,7 @@ class Renderer(base.Renderer):
         catalog = getToolByName(self.context, 'portal_catalog')
         areas = catalog(object_provides=IRoomArea.__identifier__,
                         path={'query': '/'.join(room.getPhysicalPath()), 'depth': 1},
+                        exclude_from_nav
                         sort_on='getObjPositionInParent')
         groups = []
         acl_users = getToolByName(self.context, 'acl_users')
@@ -96,6 +97,9 @@ class Renderer(base.Renderer):
                     if g.getId().startswith("%s." % self.room_id) and \
                 g.getId().endswith(".notify")]
         for area in areas:
+            if area.exclude_from_nav:
+                #if an area is hidden, we don't show it in notify portlet
+                continue
             area_data = {}
             area_data['id'] = area.getId
             area_data['title'] = area.Title
