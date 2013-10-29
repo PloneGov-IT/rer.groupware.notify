@@ -89,7 +89,6 @@ class Renderer(base.Renderer):
         catalog = getToolByName(self.context, 'portal_catalog')
         areas = catalog(object_provides=IRoomArea.__identifier__,
                         path={'query': '/'.join(room.getPhysicalPath()), 'depth': 1},
-                        exclude_from_nav
                         sort_on='getObjPositionInParent')
         groups = []
         acl_users = getToolByName(self.context, 'acl_users')
