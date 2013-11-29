@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.1 (unreleased)
+1.3.1 (2013-11-29)
 ------------------
 
 - Fixed redirect after subscription for files and images [cekk]
