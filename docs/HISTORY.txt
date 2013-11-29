@@ -4,29 +4,29 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed redirect after subscription for files and images [cekk]
 
 
 1.3.0 (2013-11-05)
 ------------------
 
-- Fixed translation [andrea]
-- Added multi-language support in creation event [andrea]
-- Added for_types exception for PloneBoard area. Now rules are filtered for PloneboardComment [andrea]
-- Add fullname in portal_message after subscription/unsubscription action [andrea]
-- Add check to show areas: if is excluded from nav, doesn't show it in the portlet [andrea]
+- Fixed translation [cekk]
+- Added multi-language support in creation event [cekk]
+- Added for_types exception for PloneBoard area. Now rules are filtered for PloneboardComment [cekk]
+- Add fullname in portal_message after subscription/unsubscription action [cekk]
+- Add check to show areas: if is excluded from nav, doesn't show it in the portlet [cekk]
 
 1.2.2 (2013-10-21)
 ------------------
 
-- Fixed query catalog for areas in room in the event. Now results are filtered by room path [andrea]
-- Fix portlet's available method [andrea]
+- Fixed query catalog for areas in room in the event. Now results are filtered by room path [cekk]
+- Fix portlet's available method [cekk]
 
 1.2.1 (2013-09-24)
 ------------------
 
-- Fix rule mail sendere for rooms with accents [andrea]
-- Fix rule message for modified contents [andrea]
+- Fix rule mail sendere for rooms with accents [cekk]
+- Fix rule message for modified contents [cekk]
 
 1.2.0 (2013-08-02)
 ------------------
@@ -39,7 +39,7 @@ Changelog
 
 - If default_email_sender registry property is set, the sender of rules 
   will be set with that address
-  [andrea]
+  [cekk]
 
 1.0.0 (2013-06-24)
 ------------------

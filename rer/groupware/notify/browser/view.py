@@ -34,8 +34,8 @@ class NotificationSubscriptionView(BrowserView):
                 plone_utils.addPortalMessage(_('removed_from_notify_group',
                                                default=u"User ${user} removed from notification group",
                                                mapping={'user': fullname, 'group': group_id}))
-        request.response.redirect(self.context.absolute_url())
-    
+        request.response.redirect("%s/view" % self.context.absolute_url())
+
     def _checkSecurity(self, member, room_id, raiseOnUnauth=True):
         """If the user is not a poweruser, we need to check if he can really subscribe to the notification group.
         i.e: is part of the room?
