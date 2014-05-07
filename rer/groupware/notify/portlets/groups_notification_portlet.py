@@ -12,11 +12,29 @@ from plone.app.portlets.portlets import base
 
 from rer.groupware.notify import messageFactory as _
 from rer.groupware.room.interfaces import IRoomArea
+from plone.memoize import ram
+from time import time
+from Acquisition import aq_inner
+from zope.component import getMultiAdapter
+
+
+def _notifylistcache(method, self):
+    """
+    method for ramcache that store subscriptions list
+    """
+    context = aq_inner(self.context)
+    portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
+    member = portal_state.member()
+    room = self._getContainerRoom()
+    timestamp = time() // (60 * 60 * 1)
+    return (timestamp, member.getId(), room.UID())
+
 
 class IGroupsNotificationPortlet(IPortletDataProvider):
     """
     Portlet per eseguire iscruzioni alle notifiche
     """
+
 
 class Assignment(base.Assignment):
     """Portlet assignment.
@@ -24,12 +42,12 @@ class Assignment(base.Assignment):
     This is what is actually managed through the portlets UI and associated
     with columns.
     """
-    
+
     implements(IGroupsNotificationPortlet)
 
     @property
     def title(self):
-        return _("Groupware Notifications") 
+        return _("Groupware Notifications")
 
 
 class Renderer(base.Renderer):
@@ -72,19 +90,24 @@ class Renderer(base.Renderer):
     def _getContainerRoom(self):
         room = None
         for parent in self.context.aq_inner.aq_chain:
-            if getattr(parent,'portal_type','') == 'GroupRoom':
+            if getattr(parent, 'portal_type', '') == 'GroupRoom':
                 room = parent
         return room
 
+    @ram.cache(_notifylistcache)
     def listNotificationGroups(self):
         """List of groups related to area notifications"""
+        import logging
+        logger = logging.getLogger("NOTIFICHE")
+        logger.info("QUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+
         room = self._getContainerRoom()
         if not room:
             # I'm not in a room or subtree and the portlet will not be visible
             return []
         self.room_title = room.Title()
         self.room_id = room.getId()
-        
+
         # now I need all area inside
         catalog = getToolByName(self.context, 'portal_catalog')
         areas = catalog(object_provides=IRoomArea.__identifier__,
@@ -109,22 +132,22 @@ class Renderer(base.Renderer):
                                            'title': group.getProperty('title') or group.getId()
                                            }
             groups.append(area_data)
-        
+
         # other, not area related, groups
         if '%s.comments.notify' % self.room_id in [x.getId() for x in notify_groups]:
             group = acl_users.getGroupById("%s.comments.notify" % self.room_id)
             groups.append({'id': 'comments',
                            'title': translate(_(u'Comments'), context=self.context.REQUEST),
-                           'group_data':{'id': group.getId(),
+                           'group_data': {'id': group.getId(),
                                          'title': group.getProperty('title') or group.getId()
                             }})
-        
+
         return groups
 
     def inNotificationGroup(self, group):
         return group.get('id') in self.member.getGroups()
 
-        
+
 class AddForm(base.NullAddForm):
 
     def create(self):
