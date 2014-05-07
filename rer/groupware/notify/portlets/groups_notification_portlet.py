@@ -97,10 +97,6 @@ class Renderer(base.Renderer):
     @ram.cache(_notifylistcache)
     def listNotificationGroups(self):
         """List of groups related to area notifications"""
-        import logging
-        logger = logging.getLogger("NOTIFICHE")
-        logger.info("QUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
-
         room = self._getContainerRoom()
         if not room:
             # I'm not in a room or subtree and the portlet will not be visible
