@@ -1,25 +1,27 @@
 <dl class="portlet portletGroupwareNotification"
-    i18n:domain="rer.groupware.notify">
+    i18n:domain="rer.groupware.notify"
+    tal:define="room python:view.room">
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
         <span class="tile" i18n:translate="portlet_room_title">
-            <span class="roomName" i18n:name="room_name" tal:content="view/room_title" /> notifications
+            <span class="roomName" i18n:name="room_name" tal:content="room/Title" /> notifications
         </span>
         <span class="portletTopRight"></span>
     </dt>
     
     <dd class="portletItem">
         <div>
-            <dl class="groupNotificationList">
+            <dl class="groupNotificationList"
+                tal:define="room_id room/getId">
                 <tal:areas repeat="area view/listNotificationGroups">
-                    <dd tal:define="group area/group_data"
+                    <dd tal:define="group area/group_data;"
 					    tal:condition="group">
                         <a href=""
                            title="Enable notifications"
                            tal:condition="python:not view.inNotificationGroup(group)"
                            i18n:attributes="title"
-                           tal:attributes="href string:${here/absolute_url}/@@notification-subscription?room_id=${view/room_id}&area_id=${area/id}">
+                           tal:attributes="href string:${here/absolute_url}/@@notification-subscription?room_id=${room_id}&area_id=${area/id}">
                             <img tal:attributes="src string:${here/portal_url}/++resource++rer.groupware.room.images/group_false.png"
                                  alt="Disabled"
                                  role="checkbox"
@@ -31,7 +33,7 @@
                            title="Disable notifications"
                            tal:condition="python:view.inNotificationGroup(group)"
                            i18n:attributes="title"
-                           tal:attributes="href string:${here/absolute_url}/@@notification-subscription?room_id=${view/room_id}&area_id=${area/id}">
+                           tal:attributes="href string:${here/absolute_url}/@@notification-subscription?room_id=${room_id}&area_id=${area/id}">
                             <img tal:attributes="src string:${here/portal_url}/++resource++rer.groupware.room.images/group_true.png"
                                  role="checkbox"
                                  alt="Enabled"

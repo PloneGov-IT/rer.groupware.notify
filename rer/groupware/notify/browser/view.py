@@ -7,9 +7,10 @@ from Products.CMFCore.utils import getToolByName
 
 from rer.groupware.notify import messageFactory as _
 
+
 class NotificationSubscriptionView(BrowserView):
     """Manage subscription to notification groups"""
-    
+
     def __call__(self, *args, **kwargs):
         request = self.request
         if request.form.get('room_id') and request.form.get('area_id'):

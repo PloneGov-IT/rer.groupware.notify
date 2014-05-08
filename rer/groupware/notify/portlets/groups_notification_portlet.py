@@ -59,8 +59,6 @@ class Renderer(base.Renderer):
         self.__parent__ = view
         self.manager = manager
         self.data = data
-        self.room_title = ''
-        self.room_id = ''
 
     render = ViewPageTemplateFile('groups_notification_portlet.pt')
 
@@ -94,15 +92,18 @@ class Renderer(base.Renderer):
                 room = parent
         return room
 
+    @property
+    def room(self):
+        return self._getContainerRoom()
+
     @ram.cache(_notifylistcache)
     def listNotificationGroups(self):
         """List of groups related to area notifications"""
-        room = self._getContainerRoom()
+        room = self.room
         if not room:
             # I'm not in a room or subtree and the portlet will not be visible
             return []
-        self.room_title = room.Title()
-        self.room_id = room.getId()
+        room_id = room.getId()
 
         # now I need all area inside
         catalog = getToolByName(self.context, 'portal_catalog')
@@ -112,7 +113,7 @@ class Renderer(base.Renderer):
         groups = []
         acl_users = getToolByName(self.context, 'acl_users')
         notify_groups = [g for g in acl_users.getGroups() \
-                    if g.getId().startswith("%s." % self.room_id) and \
+                    if g.getId().startswith("%s." % room_id) and \
                 g.getId().endswith(".notify")]
         for area in areas:
             if area.exclude_from_nav:
@@ -121,7 +122,7 @@ class Renderer(base.Renderer):
             area_data = {}
             area_data['id'] = area.getId
             area_data['title'] = area.Title
-            group = acl_users.getGroupById("%s.%s.notify" % (self.room_id, area.getId))
+            group = acl_users.getGroupById("%s.%s.notify" % (room_id, area.getId))
             area_data['group_data'] = {}
             if group:
                 area_data['group_data'] = {'id': group.getId(),
@@ -130,8 +131,8 @@ class Renderer(base.Renderer):
             groups.append(area_data)
 
         # other, not area related, groups
-        if '%s.comments.notify' % self.room_id in [x.getId() for x in notify_groups]:
-            group = acl_users.getGroupById("%s.comments.notify" % self.room_id)
+        if '%s.comments.notify' % room_id in [x.getId() for x in notify_groups]:
+            group = acl_users.getGroupById("%s.comments.notify" % room_id)
             groups.append({'id': 'comments',
                            'title': translate(_(u'Comments'), context=self.context.REQUEST),
                            'group_data': {'id': group.getId(),
