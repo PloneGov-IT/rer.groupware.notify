@@ -5,7 +5,10 @@ from Acquisition import aq_inner, aq_parent
 from zope.i18n import translate
 from zope.component import getUtility, queryUtility
 from zope.lifecycleevent.interfaces import IObjectModifiedEvent
-from zope.app.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent
+try:
+    from zope.app.container.interfaces import IObjectAddedEvent, IObjectRemovedEvent
+except ImportError:
+    from zope.lifecycleevent.interfaces import IObjectAddedEvent, IObjectRemovedEvent
 #from zope.app.container.interfaces import INameChooser
 
 from Products.CMFCore.utils import getToolByName
