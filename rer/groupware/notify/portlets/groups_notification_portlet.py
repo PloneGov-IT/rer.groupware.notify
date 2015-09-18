@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
-
-from zope.interface import implements
-from zope.i18n import translate
-
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.utils import getToolByName
-from plone.memoize.instance import memoize
-
-from plone.portlets.interfaces import IPortletDataProvider
+from Acquisition import aq_inner
+from plone import api
 from plone.app.portlets.portlets import base
-
+from plone.memoize import ram
+from plone.memoize.instance import memoize
+from plone.portlets.interfaces import IPortletDataProvider
+from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from rer.groupware.notify import messageFactory as _
 from rer.groupware.room.interfaces import IRoomArea
-from plone.memoize import ram
 from time import time
-from Acquisition import aq_inner
 from zope.component import getMultiAdapter
+from zope.i18n import translate
+from zope.interface import implements
 
 
 def _notifylistcache(method, self):
@@ -64,6 +61,8 @@ class Renderer(base.Renderer):
 
     @property
     def available(self):
+        if not self.room:
+            return False
         pm = getToolByName(self.context, 'portal_membership')
         if pm.isAnonymousUser():
             return False
@@ -111,10 +110,6 @@ class Renderer(base.Renderer):
                         path={'query': '/'.join(room.getPhysicalPath()), 'depth': 1},
                         sort_on='getObjPositionInParent')
         groups = []
-        acl_users = getToolByName(self.context, 'acl_users')
-        notify_groups = [g for g in acl_users.getGroups() \
-                    if g.getId().startswith("%s." % room_id) and \
-                g.getId().endswith(".notify")]
         for area in areas:
             if area.exclude_from_nav:
                 #if an area is hidden, we don't show it in notify portlet
@@ -122,8 +117,7 @@ class Renderer(base.Renderer):
             area_data = {}
             area_data['id'] = area.getId
             area_data['title'] = area.Title
-            group = acl_users.getGroupById("%s.%s.notify" % (room_id, area.getId))
-            area_data['group_data'] = {}
+            group = api.group.get("%s.%s.notify" % (room_id, area.getId))
             if group:
                 area_data['group_data'] = {'id': group.getId(),
                                            'title': group.getProperty('title') or group.getId()
@@ -131,8 +125,8 @@ class Renderer(base.Renderer):
             groups.append(area_data)
 
         # other, not area related, groups
-        if '%s.comments.notify' % room_id in [x.getId() for x in notify_groups]:
-            group = acl_users.getGroupById("%s.comments.notify" % room_id)
+        comments_group = api.group.get("%s.comments.notify" % (room_id))
+        if comments_group:
             groups.append({'id': 'comments',
                            'title': translate(_(u'Comments'), context=self.context.REQUEST),
                            'group_data': {'id': group.getId(),

@@ -4,7 +4,9 @@ Changelog
 1.3.2 (unreleased)
 ------------------
 
-- Added ram cache for listNotificationGroups method in the portlet [cekk]
+- Refactored `listNotificationGroups` method in the portlet to speedup,
+  and add ramcache
+  [cekk]
 
 
 1.3.1 (2013-11-29)
@@ -43,7 +45,7 @@ Changelog
 1.1.0 (2013-07-26)
 ------------------
 
-- If default_email_sender registry property is set, the sender of rules 
+- If default_email_sender registry property is set, the sender of rules
   will be set with that address
   [cekk]
 
