@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.2 (unreleased)
+1.3.2 (2015-09-22)
 ------------------
 
 - Refactored `listNotificationGroups` method in the portlet to speedup,
