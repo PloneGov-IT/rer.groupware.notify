@@ -4,7 +4,7 @@ Changelog
 1.3.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add plone.api [cekk]
 
 
 1.3.2 (2015-09-22)

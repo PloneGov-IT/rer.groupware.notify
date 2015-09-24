@@ -30,6 +30,7 @@ setup(name='rer.groupware.notify',
           'collective.stringinterp.text',
           'rer.groupware.room',
           'Products.SimpleGroupsManagement',
+          'plone.api'
       ],
       entry_points="""
       [z3c.autoinclude.plugin]
