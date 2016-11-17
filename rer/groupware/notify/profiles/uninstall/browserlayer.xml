@@ -1,0 +1,5 @@
+<layers>
+    <layer name="rer.groupware.notify"
+           interface="rer.groupware.notify.interfaces.IGroupwareNotifyLayer"
+           remove="True"/>
+</layers>

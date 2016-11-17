@@ -32,4 +32,11 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="RER Groupware: notifications uninstall"
+      directory="profiles/uninstall"
+      description="Notification and content rules configuration for Groupware"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 </configure>

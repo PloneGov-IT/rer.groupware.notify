@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.4.0 (Unreleased)
+------------------
+
+- Add uninstall profile
+  [cekk]
+
+
 1.3.3 (2015-09-24)
 ------------------
 

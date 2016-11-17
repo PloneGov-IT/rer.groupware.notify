@@ -1,0 +1,4 @@
+<registry>
+    <records interface="rer.groupware.notify.interfaces.IGroupwareNotifySettings"
+             remove="True"/>
+</registry>
