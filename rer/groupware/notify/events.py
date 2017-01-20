@@ -13,6 +13,10 @@ except ImportError:
 
 from Products.CMFCore.utils import getToolByName
 
+from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
+from plone.app.dexterity.behaviors import constrains
+
+
 from plone.contentrules.engine.assignments import RuleAssignment
 from plone.contentrules.engine.interfaces import IRuleAssignmentManager
 from plone.contentrules.engine.interfaces import IRuleStorage
@@ -87,10 +91,10 @@ class CreateNotificationRulesEvent(BaseEventClass):
     """
     Create 3 content rules (add, edit, and delete) with the new Groupware action.
     Enable the rule on every area in the room.
-    
+
     Create also the global notification group for comments
     """
-    
+
     def __init__(self, context, event):
         super(CreateNotificationRulesEvent, self).__init__(context, event)
         self.event = event
@@ -262,7 +266,9 @@ class CreateNotificationRulesEvent(BaseEventClass):
             if not for_types:
                 #set the condition and add it to the rule
                 if settings:
-                    allowed_types = rule_context.getLocallyAllowedTypes()
+
+                    behavior = ISelectableConstrainTypes(rule_context)
+                    allowed_types = behavior.getLocallyAllowedTypes()
                     types_list =  set(allowed_types).difference(settings.black_list)
                     condition = PortalTypeCondition()
                     condition.check_types=tuple(types_list)
@@ -272,9 +278,9 @@ class CreateNotificationRulesEvent(BaseEventClass):
                 condition=PortalTypeCondition()
                 condition.check_types=tuple(for_types)
                 rule.conditions.append(condition)
-            
+
             logger.info('Created rule %s' % rule_id)
-            
+
         #assignment
         rule_id=rule.id.replace('++rule++','')
         assignable = IRuleAssignmentManager(rule_context)
