@@ -4,13 +4,20 @@
     i18n_domain="rer.groupware.notify">
 
   <include package="plone.app.contentmenu" />
- 
+
   <browser:page
-        name="notification-subscription"
-        for="*"
-        class=".view.NotificationSubscriptionView"
-        permission="rer.groupware.notify.SubscribeToNotifications"
-        />
+    name="notification-subscription"
+    for="*"
+    class=".view.NotificationSubscriptionView"
+    template="notification_subscription_view.pt"
+    permission="rer.groupware.notify.SubscribeToNotifications"
+    />
+  <browser:page
+    name="notify-support-view"
+    for="*"
+    class=".view.RERGroupwareNotifySupportView"
+    permission="rer.groupware.notify.SubscribeToNotifications"
+    />
 
     <browser:page
         name="groupware-notify-settings"
@@ -20,4 +27,9 @@
         layer="..interfaces.IGroupwareNotifyLayer"
         />
 
+  <!-- Publish static files -->
+  <browser:resourceDirectory
+      name="rer.groupware.notify"
+      directory="static"
+      />
 </configure>

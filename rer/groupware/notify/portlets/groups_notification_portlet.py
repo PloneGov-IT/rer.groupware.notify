@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from time import time
+from plone.protect.utils import addTokenToUrl
 from Acquisition import aq_inner
 from plone import api
 from plone.app.portlets.portlets import base
@@ -9,7 +11,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from rer.groupware.notify import messageFactory as _
 from rer.groupware.room.interfaces import IRoomArea
-from time import time
 from zope.component import getMultiAdapter
 from zope.i18n import translate
 from zope.interface import implements
@@ -20,7 +21,8 @@ def _notifylistcache(method, self):
     method for ramcache that store subscriptions list
     """
     context = aq_inner(self.context)
-    portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
+    portal_state = getMultiAdapter(
+        (context, self.request), name=u'plone_portal_state')
     member = portal_state.member()
     room = self._getContainerRoom()
     timestamp = time() // (60 * 60 * 1)
@@ -28,12 +30,14 @@ def _notifylistcache(method, self):
 
 
 class IGroupsNotificationPortlet(IPortletDataProvider):
+
     """
     Portlet per eseguire iscruzioni alle notifiche
     """
 
 
 class Assignment(base.Assignment):
+
     """Portlet assignment.
 
     This is what is actually managed through the portlets UI and associated
@@ -61,82 +65,52 @@ class Renderer(base.Renderer):
 
     @property
     def available(self):
-        if not self.room:
-            return False
-        pm = getToolByName(self.context, 'portal_membership')
-        if pm.isAnonymousUser():
+        if api.user.is_anonymous():
             return False
         # no portlet for top level acl_users
         acl_users = getToolByName(self.context, 'acl_users')
         if not acl_users.searchUsers(id=self.member.getId()):
             return False
-        if not self.listNotificationGroups():
-            return False
         # checking security: can't subscribe if I'm not member of the room
-        if not 'Active User' in self.member.getRolesInContext(self.context):
+        user_roles = api.user.get_roles(user=self.member, obj=self.context)
+        if 'Active User' not in user_roles:
+            return False
+        if not self.listNotificationGroups():
             return False
         return True
 
     @property
     @memoize
     def member(self):
-        portal_membership = getToolByName(self.context, 'portal_membership')
-        return portal_membership.getAuthenticatedMember()
+        return api.user.get_current()
 
-    @memoize
-    def _getContainerRoom(self):
-        room = None
-        for parent in self.context.aq_inner.aq_chain:
-            if getattr(parent, 'portal_type', '') == 'GroupRoom':
-                room = parent
-        return room
+    # @memoize
+    # def _getContainerRoom(self):
+    #     room = None
+    #     for parent in self.context.aq_inner.aq_chain:
+    #         if getattr(parent, 'portal_type', '') == 'GroupRoom':
+    #             room = parent
+    #     return room
+    #
+    # @property
+    # def room(self):
+    #     return self._getContainerRoom()
 
-    @property
-    def room(self):
-        return self._getContainerRoom()
-
-    @ram.cache(_notifylistcache)
+    # @ram.cache(_notifylistcache)
     def listNotificationGroups(self):
         """List of groups related to area notifications"""
-        room = self.room
-        if not room:
-            # I'm not in a room or subtree and the portlet will not be visible
-            return []
-        room_id = room.getId()
+        view = api.content.get_view(
+            name='notify-support-view',
+            context=self.context,
+            request=self.context.REQUEST,
+        )
+        if not view:
+            return {}
+        return view.listNotificationGroups()
 
-        # now I need all area inside
-        catalog = getToolByName(self.context, 'portal_catalog')
-        areas = catalog(object_provides=IRoomArea.__identifier__,
-                        path={'query': '/'.join(room.getPhysicalPath()), 'depth': 1},
-                        sort_on='getObjPositionInParent')
-        groups = []
-        for area in areas:
-            if area.exclude_from_nav:
-                #if an area is hidden, we don't show it in notify portlet
-                continue
-            area_data = {}
-            area_data['id'] = area.getId
-            area_data['title'] = area.Title
-            group = api.group.get("%s.%s.notify" % (room_id, area.getId))
-            if group:
-                area_data['group_data'] = {'id': group.getId(),
-                                           'title': group.getProperty('title') or group.getId()
-                                           }
-            groups.append(area_data)
-
-        # other, not area related, groups
-        comments_group = api.group.get("%s.comments.notify" % (room_id))
-        if comments_group:
-            groups.append({'id': 'comments',
-                           'title': translate(_(u'Comments'), context=self.context.REQUEST),
-                           'group_data': {'id': group.getId(),
-                                         'title': group.getProperty('title') or group.getId()
-                            }})
-
-        return groups
-
-    def inNotificationGroup(self, group):
-        return group.get('id') in self.member.getGroups()
+    def generateUrl(self, group_id):
+        url = '{}/notification-subscription?group_id={}'.format(self.context.absolute_url(), group_id)
+        return addTokenToUrl(url)
 
 
 class AddForm(base.NullAddForm):
