@@ -1,18 +1,17 @@
+<?xml version="1.0"?>
 <registry>
-    <records interface="rer.groupware.notify.interfaces.IGroupwareNotifySettings" />
-
+    <records interface="rer.groupware.notify.interfaces.IGroupwareNotifySettings"/>
     <!-- resource registry -->
-    <records prefix="plone.resources/groupwarenotify"
-             interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <records prefix="plone.resources/groupwarenotify" interface="Products.CMFPlone.interfaces.IResourceRegistry">
       <value key="js">++resource++rer.groupware.notify/groupwarenotify.js</value>
+      <value key="css"/>
     </records>
-    <records prefix="plone.bundles/groupwarenotify"
-             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <records prefix="plone.bundles/groupwarenotify" interface="Products.CMFPlone.interfaces.IBundleRegistry">
       <value key="resources">
         <element>groupwarenotify</element>
       </value>
       <value key="enabled">True</value>
       <value key="jscompilation">++resource++rer.groupware.notify/groupwarenotify.min.js</value>
-      <value key="last_compilation">2015-02-06 00:00:00</value>
+      <value key="last_compilation">2017-03-17 16:22:00</value>
     </records>
 </registry>
