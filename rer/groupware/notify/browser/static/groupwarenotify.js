@@ -1,10 +1,9 @@
 require([
   'jquery',
-  'pat-registry',
-], function ($, Registry) {
+], function ($) {
   'use strict';
-  (function ($) {
-    $('.area-notify .subscription-button').on('click', function (e) {
+  $(document).ready(function () {
+    $('.area-notify .subscription-button').click(function (e) {
       e.preventDefault();
       $.ajax($(this).attr('href'), {
         dataType: 'json',
@@ -45,5 +44,5 @@ require([
         console.error(err);
       });
     });
-  })(jQuery);
+  });
 });

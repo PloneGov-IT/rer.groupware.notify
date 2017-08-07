@@ -10,5 +10,5 @@ bootstrap:
 # # 	  nvm use
 # #     npm install
 #
-# prod:
-#   $(GRUNT) prod
+prod:
+	$(GRUNT) prod
