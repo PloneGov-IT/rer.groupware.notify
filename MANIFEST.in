@@ -5,3 +5,6 @@ recursive-include rer *
 
 global-exclude *.pyc
 global-include *.mo
+include *.js
+include *.json
+include Makefile
