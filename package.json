@@ -1,0 +1,19 @@
+{
+  "name": "production-436",
+  "version": "1.0.0",
+  "description": "La documentazione aggiornata di questo buildout è in:",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-uglify": "^2.2.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-xmlpoke": "^0.10.0",
+    "load-grunt-tasks": "^3.5.2"
+  },
+  "author": "cekk",
+  "license": "ISC"
+}

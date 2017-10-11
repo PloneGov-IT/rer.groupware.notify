@@ -1,12 +1,13 @@
 Changelog
 =========
 
-1.4.0 (Unreleased)
+2.0.0 (Unreleased)
 ------------------
 
 - Add uninstall profile
   [cekk]
-
+- Plone 5 compatibility
+  [cekk]
 
 1.3.3 (2015-09-24)
 ------------------

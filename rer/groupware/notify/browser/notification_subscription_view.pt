@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="rer.groupware.notify">
+  <body>
+    <metal:content-title fill-slot="content-title">
+      <metal:content-title define-macro="content-title">
+      </metal:content-title>
+    </metal:content-title>
+    <metal:content-description fill-slot="content-description">
+      <metal:content-description define-macro="content-description">
+
+      </metal:content-description>
+    </metal:content-description>
+    <metal:content-core fill-slot="content-core">
+      <metal:content-core define-macro="content-core"
+                          tal:define="results view/listNotificationGroups;
+                                      areas results/groups|nothing">
+        <metal:subscriptions define-macro="room_subscriptions">
+          <tal:areas repeat="area areas">
+            <div class="area-notify"
+                 tal:define="checkClass python:area.get('subscribed') and 'glyphicon-check' or 'glyphicon-unchecked';
+                             groupdata area/group_data">
+              <a tal:attributes="href python:view.generateUrl(groupdata.get('id'))" title="${groupdata/title}">
+                <span class="glyphicon ${checkClass}" aria-hidden="true"></span>
+                ${area/title}
+              </a>
+            </div>
+          </tal:areas>
+        </metal:subscriptions>
+      </metal:content-core>
+    </metal:content-core>
+  </body>
+</html>

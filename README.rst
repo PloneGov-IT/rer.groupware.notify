@@ -13,3 +13,10 @@ Installing this product will also register a **new portlet**. This portlet will 
 members if the Room will be able to manage subscriptions by themself.
 
 You can set a default sender email that will be used to create new rules. You can set it from @@groupware-notify-settings control panel
+
+Compatibility
+=============
+
+This product is compatible with Plone 5.
+
+For Plone 4, use version < 2.* and `plone4` branch.
