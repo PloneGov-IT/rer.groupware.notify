@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.0 (Unreleased)
+2.0.0 (2017-10-11)
 ------------------
 
 - Add uninstall profile
