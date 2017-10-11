@@ -1,5 +1,5 @@
 include *.txt
-
+include .nvmrc
 recursive-include docs *
 recursive-include rer *
 
