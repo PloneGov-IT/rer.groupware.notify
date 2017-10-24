@@ -4,7 +4,8 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix send email module to read email infos from registry.
+  [cekk]
 
 
 2.0.0 (2017-10-11)
