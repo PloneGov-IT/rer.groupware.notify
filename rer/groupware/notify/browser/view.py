@@ -76,7 +76,7 @@ class RERGroupwareNotifySupportView(BrowserView):
         if comments_group:
             groups.append({
                 'id': 'comments',
-                'title': translate(_(u'Comments'), context=self.request),
+                'title': translate(_('Comments'), context=self.request),
                 'subscribed': self.inNotificationGroup(group_id),
                 'group_data': {
                     'id': group_id,
@@ -101,13 +101,14 @@ class NotificationSubscriptionView(RERGroupwareNotifySupportView):
     """Manage subscription to notification groups"""
 
     def __call__(self, *args, **kwargs):
+        """ """
         request = self.request
         group_id = request.form.get('group_id')
         self.request.response.setHeader("Content-type", "application/json")
         if not group_id:
             message = _(
                 'add_notify_nogroup_error',
-                default=u"Group not given. unable to execute the operation.")
+                default="Group not given. unable to execute the operation.")
             return json.dumps({
                 'status': 'error',
                 'message': translate(message, context=self.request),
@@ -117,28 +118,28 @@ class NotificationSubscriptionView(RERGroupwareNotifySupportView):
         userid = member.getId()
         fullname = member.getProperty('fullname') or userid
         try:
-            group_members = api.user.get_users(groupname=group_id)
+            group_member_ids = [m.getId() for m in api.user.get_users(groupname=group_id)]
         except GroupNotFoundError:
             message = _(
                 'add_notify_group_error',
-                default=u"Group ${group_id} not found. unable to execute the operation.",
+                default="Group ${group_id} not found. unable to execute the operation.",
                 mapping={'user': fullname})
             return json.dumps({
                 'status': 'error',
                 'message': translate(message, context=self.request),
             })
-        if member not in group_members:
+        if userid not in group_member_ids:
             api.group.add_user(groupname=group_id, user=member)
             message = _(
                 'added_to_notify_group',
-                default=u"User ${user} added to notification group",
+                default="User ${user} added to notification group",
                 mapping={'user': fullname})
             subscribed = True
         else:
             api.group.remove_user(groupname=group_id, user=member)
             message = _(
                 'removed_from_notify_group',
-                default=u"User ${user} removed from notification group",
+                default="User ${user} removed from notification group",
                 mapping={'user': fullname})
             subscribed = False
         return json.dumps({

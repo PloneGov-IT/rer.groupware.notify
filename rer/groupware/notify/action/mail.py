@@ -2,44 +2,51 @@
 from Acquisition import aq_inner, aq_parent
 from OFS.interfaces import IApplication
 from OFS.SimpleItem import SimpleItem
+
 from plone import api
+
 from plone.app.contentrules.browser.formhelper import AddForm, EditForm
 from plone.contentrules.rule.interfaces import IRuleElementData, IExecutable
 from plone.stringinterp.interfaces import IStringInterpolator
-from Products.Archetypes.interfaces import IBaseContent
+
+from plone.dexterity.interfaces import IDexterityContent
+
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
+
 from rer.groupware.notify import logger
 from rer.groupware.notify import messageFactory as _
 from rer.groupware.room.interfaces import IGroupRoom
 from rer.groupware.room.interfaces import IRoomArea
+
 from zope import schema
 from zope.component import adapts
 from zope.formlib import form
 from zope.i18n import translate
-from zope.interface import Interface, implements
+
+from zope.interface import Interface, implementer
 
 
 class IMailForGroupwareNotificationAction(Interface):
     """Definition of the configuration available for a mail action
     """
     subject = schema.TextLine(
-        title=_(u"Subject"),
-        description=_(u"Subject of the message"),
+        title=_("Subject"),
+        description=_("Subject of the message"),
         required=True
         )
 
     source = schema.TextLine(
-        title=_(u"Sender email"),
-        description=_(u"The email address that sends the email. If no email is "
+        title=_("Sender email"),
+        description=_("The email address that sends the email. If no email is "
                       "provided here, it will use the portal from address."),
          required=False
          )
 
     message = schema.Text(
-        title=_(u"Mail message"),
+        title=_("Mail message"),
         description=_('help_message',
-                        default=u"Type in here the message that you want to send. Some "
+                        default= "Type in here the message that you want to send. Some "
                                  "defined content can be replaced: ${title} will be replaced by the title "
                                  "of the document that raised the event.\n"
                                  "${url} will be replaced by the URL of the item.\n"
@@ -52,15 +59,15 @@ class IMailForGroupwareNotificationAction(Interface):
         )
 
 
+@implementer(IMailForGroupwareNotificationAction, IRuleElementData)
 class MailForGroupwareNotificationAction(SimpleItem):
     """
     The implementation of the action defined before
     """
-    implements(IMailForGroupwareNotificationAction, IRuleElementData)
 
-    subject = u''
-    message = u''
-    source = u''
+    subject = ''
+    message = ''
+    source = ''
 
     element = 'plone.actions.GroupwareMail'
 
@@ -71,13 +78,14 @@ class MailForGroupwareNotificationAction(SimpleItem):
     @property
     def summary(self):
         return _('action_summary',
-                 default=u'Groupware notifications')
+                 default='Groupware notifications')
 
 
+@implementer(IExecutable)
 class MailActionExecutor(object):
     """The executor for this action.
     """
-    implements(IExecutable)
+
     adapts(Interface, IMailForGroupwareNotificationAction, Interface)
 
     def __init__(self, context, element, event):
@@ -126,7 +134,7 @@ class MailActionExecutor(object):
 
         subject = interpolator(self.element.subject)
 
-        subject = subject.replace("${room_title}", room.Title().decode('utf-8'))
+        subject = subject.replace("${room_title}", room.Title())
         subject = subject.replace("${room_url}", room.absolute_url())
         subject = subject.replace("${user}", user)
 
@@ -136,26 +144,26 @@ class MailActionExecutor(object):
 
         message = message.replace(
             "${room_title}",
-            room.Title().decode('utf-8')
+            room.Title()
         )
         message = message.replace("${room_url}", room.absolute_url())
         message = message.replace("${user}", user)
         if parent:
             message = message.replace(
                 "${parent_title}",
-                parent.title_or_id().decode('utf-8')
+                parent.title_or_id()
             )
 
         if area:
-            subject = subject.replace("${area_title}", area.Title().decode('utf-8'))
+            subject = subject.replace("${area_title}", area.Title())
             subject = subject.replace("${area_url}", area.absolute_url())
-            message = message.replace("${area_title}", area.Title().decode('utf-8'))
+            message = message.replace("${area_title}", area.Title())
             message = message.replace("${area_url}", area.absolute_url())
 
         recipients = self._notification_recipients(room, area or element.area_id)
 
         # now tranform recipients in a iterator, if needed
-        if type(recipients) == str or type(recipients) == unicode:
+        if type(recipients) == str:
             recipients = [str(recipients),]
 
         for email_recipient in [r for r in recipients if r]:
@@ -175,7 +183,7 @@ class MailActionExecutor(object):
     def _getParentDocument(self, context):
         """Return the parent document (in case of comments)"""
         while True:
-            if IBaseContent.providedBy(context):
+            if IDexterityContent.providedBy(context):
                 return context
             if IApplication.providedBy(context):
                 return None
@@ -201,7 +209,7 @@ class MailActionExecutor(object):
 
     def _notification_recipients(self, room, area):
         acl_users = getToolByName(self.context, 'acl_users')
-        if isinstance(area, basestring):
+        if isinstance(area, str):
             group = acl_users.getGroupById(room.getId()+'.' + area + '.notify')
         else:
             group = acl_users.getGroupById(room.getId()+'.' + area.getId() + '.notify')
@@ -215,9 +223,9 @@ class MailForGroupwareNotificationAddForm(AddForm):
     An add form for the mail action
     """
     form_fields = form.FormFields(IMailForGroupwareNotificationAction)
-    label = _(u"Add Groupware notification action")
-    description = _(u"A mail action for the Groupware suite.")
-    form_name = _(u"Configure element")
+    label = _("Add Groupware notification action")
+    description = _("A mail action for the Groupware suite.")
+    form_name = _("Configure element")
 
     def create(self, data):
         a = MailForGroupwareNotificationAction()
@@ -230,6 +238,6 @@ class MailForGroupwareNotificationEditForm(EditForm):
     An edit form for the mail action
     """
     form_fields = form.FormFields(IMailForGroupwareNotificationAction)
-    label = _(u"Configure Groupware notification action")
-    description = _(u"A mail action for the Groupware suite.")
-    form_name = _(u"Configure element")
+    label = _("Configure Groupware notification action")
+    description = _("A mail action for the Groupware suite.")
+    form_name = _("Configure element")

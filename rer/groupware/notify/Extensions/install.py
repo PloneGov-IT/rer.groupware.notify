@@ -3,6 +3,7 @@ from zope.component import getUtility, queryUtility
 from plone.contentrules.engine.interfaces import IRuleStorage
 from rer.groupware.notify.action.mail import MailForGroupwareNotificationAction
 
+from rer.groupware.notify import logger
 
 def install(portal):
     setup_tool = portal.portal_setup
@@ -21,5 +22,5 @@ def removeRules(portal):
     for rule_id, rule in storage.items():
         for action in rule.actions:
             if isinstance(action, MailForGroupwareNotificationAction):
-                print "[REMOVED RULE] - %s" % rule.title
+                logger.info("[REMOVED RULE] - %s" % rule.title)
                 del storage[rule_id]

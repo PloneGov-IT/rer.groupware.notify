@@ -12,8 +12,9 @@ setup(name='rer.groupware.notify',
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
         "Framework :: Plone",
-        "Framework :: Plone :: 4.2",
+        "Framework :: Plone :: 5.2",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 3.8",
         ],
       keywords='plone plonegov groupware rer notification rule mail',
       author='RedTurtle Technology',
@@ -30,7 +31,6 @@ setup(name='rer.groupware.notify',
           'collective.stringinterp.text',
           'rer.groupware.room',
           'Products.SimpleGroupsManagement',
-          'plone.api'
       ],
       entry_points="""
       [z3c.autoinclude.plugin]

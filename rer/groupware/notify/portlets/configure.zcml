@@ -4,15 +4,15 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="rer.groupware.notify">
 
-    <include package="plone.app.portlets" />
+  <include package="plone.app.portlets" />
 
-	<plone:portlet
-         name="rer.groupware.notify.portletGroupsNotification"
-         interface=".groups_notification_portlet.IGroupsNotificationPortlet"
-         assignment=".groups_notification_portlet.Assignment"
-         view_permission="zope2.View"
-         renderer=".groups_notification_portlet.Renderer"
-         addview=".groups_notification_portlet.AddForm"
-         />
-		 
+  <plone:portlet
+    name="rer.groupware.notify.portletGroupsNotification"
+    interface=".groups_notification_portlet.IGroupsNotificationPortlet"
+    assignment=".groups_notification_portlet.Assignment"
+    view_permission="zope2.View"
+    renderer=".groups_notification_portlet.Renderer"
+    addview=".groups_notification_portlet.AddForm"
+    />
+
 </configure>

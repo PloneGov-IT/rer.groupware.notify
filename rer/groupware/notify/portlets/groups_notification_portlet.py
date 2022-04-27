@@ -1,19 +1,26 @@
 # -*- coding: utf-8 -*-
 from time import time
+
 from plone.protect.utils import addTokenToUrl
+
 from Acquisition import aq_inner
+
 from plone import api
 from plone.app.portlets.portlets import base
 from plone.memoize import ram
 from plone.memoize.instance import memoize
 from plone.portlets.interfaces import IPortletDataProvider
+
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
 from rer.groupware.notify import messageFactory as _
 from rer.groupware.room.interfaces import IRoomArea
+
 from zope.component import getMultiAdapter
 from zope.i18n import translate
-from zope.interface import implements
+
+from zope.interface import implementer
 
 
 def _notifylistcache(method, self):
@@ -22,7 +29,7 @@ def _notifylistcache(method, self):
     """
     context = aq_inner(self.context)
     portal_state = getMultiAdapter(
-        (context, self.request), name=u'plone_portal_state')
+        (context, self.request), name='plone_portal_state')
     member = portal_state.member()
     room = self._getContainerRoom()
     timestamp = time() // (60 * 60 * 1)
@@ -35,7 +42,7 @@ class IGroupsNotificationPortlet(IPortletDataProvider):
     Portlet per eseguire iscruzioni alle notifiche
     """
 
-
+@implementer(IGroupsNotificationPortlet)
 class Assignment(base.Assignment):
 
     """Portlet assignment.
@@ -43,8 +50,6 @@ class Assignment(base.Assignment):
     This is what is actually managed through the portlets UI and associated
     with columns.
     """
-
-    implements(IGroupsNotificationPortlet)
 
     @property
     def title(self):

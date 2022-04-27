@@ -12,6 +12,7 @@
     template="notification_subscription_view.pt"
     permission="rer.groupware.notify.SubscribeToNotifications"
     />
+
   <browser:page
     name="notify-support-view"
     for="*"
@@ -19,17 +20,18 @@
     permission="rer.groupware.notify.SubscribeToNotifications"
     />
 
-    <browser:page
-        name="groupware-notify-settings"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        class=".controlpanel.GroupwareNotifySettingsControlPanel"
-        permission="rer.groupware.notify.ManageSettings"
-        layer="..interfaces.IGroupwareNotifyLayer"
-        />
+  <browser:page
+      name="groupware-notify-settings"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.GroupwareNotifySettingsControlPanel"
+      permission="rer.groupware.notify.ManageSettings"
+      layer="..interfaces.IGroupwareNotifyLayer"
+      />
 
   <!-- Publish static files -->
   <browser:resourceDirectory
       name="rer.groupware.notify"
       directory="static"
       />
+
 </configure>

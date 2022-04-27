@@ -60,8 +60,8 @@ class CreateNotificationGroupsEvent(BaseEventClass):
             if not groups_tool.getGroupById(group_id):
                 groups_tool.addGroup(id=group_id,
                                      title=translate(_('notify_group_comment_id',
-                                                       default=u"${room_title} ${area_title} Notifications",
-                                                       mapping={"room_title": room_title.decode('utf-8'),
+                                                       default="${room_title} ${area_title} Notifications",
+                                                       mapping={"room_title": room_title,
                                                                 "area_title": area.Title(), }),
                                                        context=context.REQUEST,
                                                        target_language=self.language))
@@ -78,8 +78,8 @@ class CreateNotificationGroupsEvent(BaseEventClass):
         group_id = '%s.comments.notify' % room_id
         if not groups_tool.getGroupById(group_id):
             groups_tool.addGroup(id=group_id,
-                                 title=translate(_(u"${room_title} comments notifications",
-                                                   mapping={"room_title": room_title.decode('utf-8')}),
+                                 title=translate(_("${room_title} comments notifications",
+                                                   mapping={"room_title": room_title}),
                                                    context=context.REQUEST,
                                                    target_language=self.language))
             logger.info('Created group %s' % group_id)
@@ -114,27 +114,27 @@ class CreateNotificationRulesEvent(BaseEventClass):
         context = self.context
 
         subject = translate(_('notify_subj_comments',
-                             default=u'[${room_title}] New comment has been created',
-                             mapping={"room_title": context.Title().decode('utf-8')}),
+                             default='[${room_title}] New comment has been created',
+                             mapping={"room_title": context.Title()}),
                           context=context.REQUEST,
                           target_language=self.language)
         message = translate(_('notify_msg_comments',
-                            default=u'A new comment has been added by ${user} to document ${parent_title}.\n'
-                                    u'\n'
-                                    u'${text}\n'
-                                    u'\n'
-                                    u'You can click on the following link to see the comment:\n'
-                                    u'${url}'),
+                            default='A new comment has been added by ${user} to document ${parent_title}.\n'
+                                    '\n'
+                                    '${text}\n'
+                                    '\n'
+                                    'You can click on the following link to see the comment:\n'
+                                    '${url}'),
                           context=context.REQUEST,
                           target_language=self.language)
         rule_title = translate(_('notify_title_comments',
-                                 default=u'[${room_title}] notify for new comments',
-                                 mapping={"room_title": context.Title().decode('utf-8')}),
+                                 default='[${room_title}] notify for new comments',
+                                 mapping={"room_title": context.Title()}),
                                context=context.REQUEST,
                                target_language=self.language)
         rule_description = translate(_('notify_description_comments',
-                                       default=u'All users inside the comments notification group of the room '
-                                               u'will be mailed when new comments are added'),
+                                       default='All users inside the comments notification group of the room '
+                                               'will be mailed when new comments are added'),
                                      context=context.REQUEST,
                                      target_language=self.language)
 
@@ -155,29 +155,29 @@ class CreateNotificationRulesEvent(BaseEventClass):
             if area.portal_type == "PloneboardForum":
                 for_types.append('PloneboardComment')
             subject_created = translate(_('notify_subj_created',
-                                        default=u'[${room_title}] New content has been created in area ${area_title}',
-                                        mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
+                                        default='[${room_title}] New content has been created in area ${area_title}',
+                                        mapping={"room_title": context.Title(), "area_title": area.Title()}),
                                       context=context.REQUEST,
                                       target_language=self.language)
             message_created = translate(_('notify_msg_created',
-                                        default=u'The content "${title}" has been created.\n'
-                                                u'\n'
-                                                u'${text}\n'
-                                                u'\n'
-                                                u'You can click on the following link to see it:\n'
-                                                u'${url}'),
+                                        default='The content "${title}" has been created.\n'
+                                                '\n'
+                                                '${text}\n'
+                                                '\n'
+                                                'You can click on the following link to see it:\n'
+                                                '${url}'),
                                       context=context.REQUEST,
                                       target_language=self.language)
             rule_title = translate(_('notify_title_created',
-                                     default=u'[${room_title}] notify for new document inside ${area_title}',
-                                     mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
+                                     default='[${room_title}] notify for new document inside ${area_title}',
+                                     mapping={"room_title": context.Title(), "area_title": area.Title()}),
                                      context=context.REQUEST,
                                      target_language=self.language)
             rule_description = translate(_('notify_description_created',
-                                           default=u'All users inside the notification group of the area '
-                                                   u'${area_title} inside the room ${room_title} will be '
-                                                   u'mailed when new contents are added',
-                                           mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
+                                           default='All users inside the notification group of the area '
+                                                   '${area_title} inside the room ${room_title} will be '
+                                                   'mailed when new contents are added',
+                                           mapping={"room_title": context.Title(), "area_title": area.Title()}),
                                          context=context.REQUEST,
                                          target_language=self.language)
             self.createRule(context, area, rule_id="%s-%s-created" % (context.getId(), area.getId()), rule_title=rule_title,
@@ -185,26 +185,26 @@ class CreateNotificationRulesEvent(BaseEventClass):
                             subject=subject_created, message=message_created, for_types=for_types)
 
             subject_modified = translate(_('notify_subj_modified',
-                                         default=u'[${room_title}] A content has been modified inside area ${area_title}',
-                                         mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
+                                         default='[${room_title}] A content has been modified inside area ${area_title}',
+                                         mapping={"room_title": context.Title(), "area_title": area.Title()}),
                                        context=context.REQUEST,
                                        target_language=self.language)
             message_modified = translate(_('notify_msg_modified',
-                                         default=u'The content "${title}" has been modified.\n'
-                                                 u'You can click on the following link to see it:\n'
-                                                 u'${url}'),
+                                         default='The content "${title}" has been modified.\n'
+                                                 'You can click on the following link to see it:\n'
+                                                 '${url}'),
                                        context=context.REQUEST,
                                        target_language=self.language)
             rule_title = translate(_('notify_title_modified',
-                                     default=u'[${room_title}] notify for document edited inside ${area_title}',
-                                     mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
+                                     default='[${room_title}] notify for document edited inside ${area_title}',
+                                     mapping={"room_title": context.Title(), "area_title": area.Title()}),
                                      context=context.REQUEST,
                                      target_language=self.language)
             rule_description = translate(_('notify_description_modified',
-                                           default=u'All users inside the notification group of the area '
-                                                   u'${area_title} inside the room ${room_title} will be '
-                                                   u'mailed when contents are modified',
-                                           mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
+                                           default='All users inside the notification group of the area '
+                                                   '${area_title} inside the room ${room_title} will be '
+                                                   'mailed when contents are modified',
+                                           mapping={"room_title": context.Title(), "area_title": area.Title()}),
                                          context=context.REQUEST,
                                          target_language=self.language)
             self.createRule(context, area, rule_id="%s-%s-modified" % (context.getId(), area.getId()), rule_title=rule_title,
@@ -212,24 +212,24 @@ class CreateNotificationRulesEvent(BaseEventClass):
                             subject=subject_modified, message=message_modified, for_types=for_types)
 
             subject_deleted = translate(_('notify_subj_deleted',
-                                        default=u'[${room_title}] A content has been deleted inside area ${area_title}',
-                                        mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
+                                        default='[${room_title}] A content has been deleted inside area ${area_title}',
+                                        mapping={"room_title": context.Title(), "area_title": area.Title()}),
                                       context=context.REQUEST,
                                       target_language=self.language)
             message_deleted = translate(_('notify_msg_deleted',
-                                        default=u'The content "${title}" has been deleted.'),
+                                        default='The content "${title}" has been deleted.'),
                                       context=context.REQUEST,
                                       target_language=self.language)
             rule_title = translate(_('notify_title_deleted',
-                                     default=u'[${room_title}] notify for document deleted inside ${area_title}',
-                                     mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
+                                     default='[${room_title}] notify for document deleted inside ${area_title}',
+                                     mapping={"room_title": context.Title(), "area_title": area.Title()}),
                                    context=context.REQUEST,
                                    target_language=self.language)
             rule_description = translate(_('notify_description_deleted',
-                                           default=u'All users inside the notification group of the area '
-                                                   u'${area_title} inside the room ${room_title} will be '
-                                                   u'mailed when contents are deleted',
-                                           mapping={"room_title": context.Title().decode('utf-8'), "area_title": area.Title()}),
+                                           default='All users inside the notification group of the area '
+                                                   '${area_title} inside the room ${room_title} will be '
+                                                   'mailed when contents are deleted',
+                                           mapping={"room_title": context.Title(), "area_title": area.Title()}),
                                          context=context.REQUEST,
                                          target_language=self.language)
             self.createRule(context, area, rule_id="%s-%s-deleted" % (context.getId(), area.getId()), rule_title=rule_title,
@@ -287,4 +287,4 @@ class CreateNotificationRulesEvent(BaseEventClass):
         assignable[rule_id] = RuleAssignment(rule_id)
         assignable[rule_id].bubbles=True
         get_assignments(storage[rule_id]).insert('/'.join(rule_context.getPhysicalPath()))
-        logger.info('Enabled rule %s on %s' % (rule_id, rule_context.Title().decode('utf-8')))
+        logger.info('Enabled rule %s on %s' % (rule_id, rule_context.Title()))
